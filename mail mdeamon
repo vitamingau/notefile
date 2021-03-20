@@ -1,0 +1,61 @@
+====== Move Mail ===== 
+remote sv -> account -> exporting -> export 
+remote sv nhận -> account ->import 
+
+check thư mục App -> cùng tên miền copy qua App 
+check signature -> cùng tên miền copy qua signature
+
+
+
+====== SPAM/Virus ==== 
+Kỹ thuật kiểm tra thấy chức năng chặn spam trên server đã được bật.
+
+Trường hợp quý khách nhận được mail quảng cáo, spam.
+lixco.com
+Quý khách có thể gởi danh sách tên miền hoặc địa chỉ mail không muốn nhận để kỹ thuật hỗ trợ thêm vào blacklist.
+
+Quý khách cũng có thể chủ động thực hiện thao tác sau để server tự học mail spam.
+
+Webmail : Click phải lên mail cần chặn, chọn Forward As Attachment và gởi đến spamLearn@tintampartners.com
+
+Outlook : Click phải, chọn More Actions - Forward As Attachment và gởi đến spamLearn@tintampartners.com
+
+hamlearn@tintampartners.com
+
+
+====== Cấu hình rules in-out ======
+rule gui nhan mail copy 1 ban.png (92.6)
+=> check rule -> rename
+
+
+====== set up mdaemon
+Vào app: 
+- Domains.dat chỉnh lại đúng ip mail server.
+
+- Alias.dat sửa lại đúng ip mail server
+MDaemon@$LOCALDOMAIN$ = MDaemon@mail9358.dotvndns.vn
+ListServ@$LOCALDOMAIN$ = MDaemon@mail9358.dotvndns.vn
+ListServer@$LOCALDOMAIN$ = MDaemon@mail9358.dotvndns.vn
+List-Serv@$LOCALDOMAIN$ = MDaemon@mail9358.dotvndns.vn
+postmaster@mail9358.dotvndns.vn = root@mail9358.dotvndns.vn
+abuse@mail9358.dotvndns.vn = root@mail9358.dotvndns.vn
+postmaster@$LOCALDOMAIN$ = root@mail9358.dotvndns.vn
+abuse@$LOCALDOMAIN$ = root@mail9358.dotvndns.vn
+
+Vào domain manager ->xóa tên mail9358.dotvndns.vn củ và tạo lại tài khoản root
+
+kiem tra cfexcludes.dat, cfdelfiles.dat, HostScreen.dat
+
+
+====== 554 Message is not RFC compliant; multiple addresses in "From" header, required "Sender" header is missing
+nho doi tac kiem tra rule RFC
+
+======= không save được chrome ===== 
+Vu Hoang: c:\MDaemon\WebAdmin\Templates\useredit_account.wdm
+(08:55) Vu Hoang: anh search tu khoa CallOnLoad
+(08:55) Vu Hoang: thay bang Onload
+(08:55) Vu Hoang: <body OnLoad="Init()">
+
+
+===== user account 552 ==== 
+echo *> C:\MDaemon\App\clearquotacounts.sem

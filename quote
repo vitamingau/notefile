@@ -1,0 +1,347 @@
+==========--WORDPRESS -========= 
+Chúng tôi kiểm tra thấy website của quý khách chạy open source wordpress - 1 dạng mã nguồn mở nếu sử dụng thêm các module - plugin, themes mở rộng thì sẽ có khả năng chiếm nhiều tài nguyên và ảnh hưởng đến tốc độ load web. Hiện tại chúng tôi đã set thêm tài nguyên cho hosting của quý khách. Quý khách vui lòng tối ưu lại source code.
+
+Nếu quý khách cảm thấy website vẫn chậm hoặc chưa đáp ứng được yêu cầu của quý khách. Quý khách có thể chuyển sang gói host wordpress để website được hỗ trợ tốt nhất và hoạt động tốt nhất. Đối với các site wordpress chúng tôi có các gói host chuyên dụng cho wordpress. Khi đăng ký host chúng tôi cũng tư vấn cho khách hàng gói host wordpress vì wordpress khi hoạt động khá ngốn nhiều tài nguyên Ram và CPU nên chúng tôi tách làm 1 gói riêng.
+
+Quý khách có thể xem các gói host tại đây : https://www.pavietnam.vn/vn/wordpress-hosting.html
+
+(
+Chúng tôi thấy website của quý khách chạy open source wordpress - 1 dạng mã nguồn mở nếu sử dụng thêm các module - plugin, themes mở rộng thì sẽ có khả năng chiếm nhiều tài nguyên
+và ảnh hưởng đến tốc độ load web.
+Hiện tại Server chúng tôi đã trang bị SSD, tài nguyên của hosting cũng được linh động cấp phát khá cao. Tuy nhiên tốc độ website load vẫn chậm
+Quý khách chủ động tập trung tối ưu từ source web, hạn chế bớt 1 số plugin không cần thiết cũng như tối ưu lại hình ảnh xem sao.
+Vì khi load trang chủ chúng tôi thấy website load gần 6MB - mức dung lượng cũng tương đối lớn ảnh hưởng phần nào đến việc load web
+)
+
+==========30s ========
+a : 1. Mục “ giới thiệu” thêm bài viết được nhưng không có mục sửa và xóa
+2. Mục “dịch vụ” thêm vào nhưng không hiện ra
+3. Mục “hướng dẫn sử dụng” không có file hướng dẫn
+4. Lâu lâu chữ của tiêu đề sản phẩm và nội dung sản phẩm tự chuyển thành 2 màu, có khi 3 màu ( Màu đỏ, xanh dương, đen )
+5. Không có phần cập nhật nick fanepage 
+q: 
+
+1. Mục Giới thiệu thì quý khách chỉ cần click vào là cập nhật được, nó là 1 trang cố định nên không thể xóa được.
+
+2. Mục Dịch vụ thì quý khách chưa cập nhật nội dung nên chưa hiện ra được.
+
+3. Hiện tại chúng tôi sẽ hướng dẫn giúp quý khách. Mục hướng dẫn đó chúng tôi đang update phiên bản mới nên sẽ cập nhật lại trong thời gian sớm nhất.
+
+4. Chúng tôi kiểm tra thấy tiêu đề không chuyển màu và tiêu đề này cũng không thể chuyển màu. Có thể máy của quý khách bị select text. Quý khách vui lòng kiểm tra lại.
+
+5. Quý khách chưa đăng ký ứng dụng fanpage. Quý khách có thể tham khảo link http://web30s.vn/Kho-Ung-Dung
+
+
+========= thư thông báo
+Chúng tôi có nhận được điện thoại từ phía QÚY KHÁCH cần cung cấp lại thông tin User/Pass quản lý Email Server.
+
+QÚY KHÁCH vui lòng Reply lại Email này để xác nhận chủ thể.
+
+Chúng tôi sẽ gửi lại thông tin User/Pass quản lý xxx qua Mail này giúp QÚY KHÁCH.
+
+Cám ơn QÚY KHÁCH.
+
+
+======== hàm mail()
+Hàm mail() là một trong những hàm rất thông dụng của ngôn ngữ lập trình web PHP, nó dùng để gửi email mà không cần xác nhận tài khoản với máy chủ Email (SMTP Server cài sẵn trên chính máy chủ Web Hosting).
+
+Chính vì nó quá phổ biến nên các mã nguồn website như: Joomla, Wordpress, NukeViet, VBB... đều tận dụng hàm mail() để người cài đặt lên Web Hosting không cần cấu hình gì thêm. Mặc dù các mã nguồn trên cũng có sẵn một bảng cài đặt SMTP hoàn chỉnh, với Username & Password để chứng thực và kết nối đến bất kỳ SMTP nào khác, ngay cả Gmail.com để gởi email đi.
+
+Càng về sau này, khi việc gởi thư rác, lừa đảo, thư giả mạo tràn ngập Internet - Hacker bắt đầu khai thác những lỗ hổng bảo mật của Website và cài vào đó những đoạn mã độc, lợi dụng hàm mail() để gởi thư trái phép. Khi việc này xảy ra, nhà cung cấp dịch vụ Web Hosting buộc phải tạm dừng account hosting của bạn để bảo vệ máy chủ. Bạn nên biết rằng, khi một máy chủ gởi thư rác, nó sẽ bị các máy chủ khác trên thế giới đánh giá xấu (Blacklist) và từ chối nhận email nhiều ngày sau.
+
+Để bảo đảm cho máy chủ và ngăn ngừa vấn nạn thư rác, nhiều nhà cung cấp dịch vụ Web Hosting chuyên nghiệp đã phải ngăn cấm việc sử dụng hàm mail() không chứng thực. Thay vào đó, người lập trình hoặc Admin website phải chuyển sang dùng PHPMailer hoặc những Module gởi email có chứng thực tài khoản với SMTP Server.
+
+Một lý do khác là SMTP Server ngày nay có thể không còn cài đặt trên cùng một máy chủ với Web Hosting, và việc gởi Email phải xác thực tài khoản là chuyện phải làm. 
+
+Tham khảo
+
+http://kienthuc.pavietnam.vn/article/Linux-Hosting/Huong-dan-Thu-thuat/Cau-hinh-SMTP-voi-Joomla.html
+
+http://kienthuc.pavietnam.vn/article/Linux-Hosting/Huong-dan-Thu-thuat/Cau-hinh-SMTP-voi-vBulletin.html
+
+http://kienthuc.pavietnam.vn/article/Linux-Hosting/Huong-dan-Thu-thuat/Cau-hinh-SMTP-voi-WordPress.html
+
+http://kienthuc.pavietnam.vn/article/Linux-Hosting/Huong-dan-Thu-thuat/Su-dung-SMTP-cua-PA-cung-cap-de-goi-Email-ma-nguon-PHP.html
+
+
+====== database kết nối 
+Quý khách vui lòng cung cấp ipwan để chúng tôi cấp quyền truy cập đến database server giúp quý khách. Quý khách vui lòng remote đến server với server name là 112.213.89.233.
+
+Server của chúng tôi sử dụng SQL server 2014, quý khách vui lòng dùng đúng phiên bản 2014 để kết nối.
+
+Link lấy ipwan : ip.pavietnam.vn
+
+
+========= Website bị keylogger =======
+Hiện tại có website của quý khách bị google block dẫn đến việc khi truy cập vào tên miền đó bằng firefox bị chặn và hiện lên thông báo như sau:
+
+ 
+
+Reported Attack Site!
+
+This web site at domain.com has been reported as an attack site and has been blocked based on your security preferences……..
+
+2 nguyên nhân chính dẫn đến việc một số website bị block access như sau:
+
+1: Website bị chèn mã độc
+
+2: Website chứa nội dung không lành mạnh.
+
+Về vấn đề website bị chèn mã độc,hiện nay có 1 loại virus và các biến thể của nó có chức năng như 1 keylogger khi nhiễm vào máy tính của các webmaster, loại virus này có chức năng lưu lại hoạt động của bàn phím nhằm ăn cắp mật khẩu, đặc biệt là các account FTP, cpanel, email… Chúng tự động tìm tất cả các file có tên index.php, index.html, default.aspx, default.asp… trên máy tính của nạn nhân và trên host bằng account FTP đã thu thập được sau đó tự động chèn thêm code load iframe tới đường link có chứa virus.
+
+Những trường hợp này đều bị bot của google phát hiện ra và liệt vào danh sách domain blacklist.
+
+Cách xử lý khi phát hiện website bị nhiễm mã độc:
+
+1: Cài đặt chương trình diệt virus và upgrade lên phiên bản mới nhất, và quét lại toàn bộ máy tính.
+
+2: Kiểm tra các file có name index.* , Default.* trên host và tìm ra code chứa nội dung iframe loại bỏ nếu cảm thấy nghi ngờ. Lên google search các đường link chứa trong iframe đó, để biết thông tin chi tiết và cách xử lý.
+
+3: Sau khi chắc chắn máy tính không còn nhiễm virus nữa, quý khách bắt đầu đổi toàn bộ info hosting, email, ftp account… ( hoặc có thể dung một máy tính khác ko có virus để đổi mật khẩu )
+
+Quý khách truy cập vào link https://sitecheck.sucuri.net/ để check scan mã độc online.
+
+Cách gỡ block của google:
+
+Sau khi đã diệt virus và tháo mã độc ra khỏi website hoàn toàn. Quý khách làm tiếp các bước sau: Quý khách truy cập
+
+http://www.stopbadware.org/home/reportsearch
+
+https://www.stopbadware.org/request-review
+
+
+Chú ý: sau 3 ngày website của Quý khách sẽ được remove ra khỏi google cảnh báo
+
+========== số lượng mail Email server ======
+Hiện tại server giới hạn gửi 1 mail chỉ cho phép tối đa đến 50 user, trong 30p nếu user gửi hơn 200mail sẽ bị frozen. Ngoài ra, các user còn bị giới hạn số lượng mail được phép gửi trong ngày ở mục quotas, mục này quý khách có thể chủ động điều chỉnh ở mục Quotas trong giao diện webadmin.
+
+Quý khách có nhu cầu gửi mail nhiều cần chia nhỏ số lượng user gửi ra gửi nhiều lần. Ngoài ra, PA không khuyến khích việc gửi mail quảng cáo liên tục vì như vậy sẽ ảnh hưởng đến tốc độ gửi/nhận mail của các khách hàng khác trên cùng server cũng như chính quý khách và IP server có thể bị các tổ chức chống spam quốc tế nghi ngờ spam, khi đó mail gửi ra khả năng có thể vào mục spam/junk của đối tác cao hơn.
+
+Trường hợp quý khách có nhu cầu gửi mail quảng cáo nhiều và liên tục, quý khách có thể tham khảo sử dụng dịch vụ Email server riêng 
+
+https://www.pavietnam.vn/vn/email-server-rieng.html
+
+
+
+======= Mail host =====
+Quý khách đang dùng dịch vụ email trên host đây là dịch vụ để hoạt động website vì vậy độ ổn định dịch vụ mail không cao dễ rơi vào blacklist do các tổ chức chống spam quốc tế chặn. Nguyên nhân do trong source code 1 số khách hàng bị hacker lợi dụng chèn 1 số mã độc vào và tiến hành gửi mail spam ra ngoài dẫn đến bị tổ chức chống spam chặn lại. Kỹ thuật đã gở yêu cầu đến tổ chức spamcop để remove IP này ra và đang đợi phản hồi từ phía spamcop, quý khach vui lòng thử lại sau.
+
+ Nếu quý khách cần sự ổn đinh và độ tin cậy trong việc gửi mail và không gặp tình trạng block bởi các tổ chức chống spam quôc tế quý khách có thể tham khảo các gói email sever. Nếu quý khách cần gấp trong vấn đề liên hệ phía đốic tác quý khách vui lòng liên hệ với phái đối tác để add whitelist domain quý khách vào. Xin cám ơn
+Tham khảo Email server: http://www.pavietnam.vn/vn/email-server.html
+
+
+
+
+temp 2:
+Trước đó chúng tôi có ghi nhận IP Server Host 112.213.89.34 bị đánh blacklist IP, hiện kỹ thuật có gửi request remove IP thì có nhận được phản hồi đang đã được remove. Quý khách vui lòng thử lại sau 2-4h. Quý khách có thẻ vui lòng liên hệ phía đối tác add domain hoặc IP 112.213.89.31 vào whitelist để sử dụng giúp chúng tôi.
+
+Qua đây chúng tôi cũng xin tư vấn, Trường hợp ip bị blacklist chúng tôi xin giải thích : Do  quý khách sử dụng dịch vụ mail trên  host chung với khách hàng khác trên cùng server host nên khi có khách hàng khác gửi spam,virrus spam,...thì ip  server sẽ bị tổ chức chống spam liệt kê vào blacklist và chặn lại nên dịch vụ mail bị lỗi.Trường hợp mail bị lỗi, quý khách vui lòng phản hồi lại để kỹ thuật kiểm tra lại server để xử lý vấn đề spam,remove blacklist và theo dõi lại.Nếu quý khách thường xuyên sử dụng mail và cần độ ổn định mail cao quý khách vui lòng tham khảo dịch vụ email server để sử dụng.
+
+http://www.pavietnam.vn/vn/email-server.html
+
+
+
+========= SPAM =======
+Chúng tôi kiểm tra hiện tại phía QUÝ KHÁCH có User: xxx có thể đã bị lộ Pass và bị lợi dụng để gửi mail Spam ra ngoài với nội dung không rõ ràng có thể làm ảnh hường đến dịch mail của QUÝ KHÁCH.
+
+Để bảo vệ dịch vụ Mail của QUÝ KHÁCH, chúng tôi đã đổi Pass User: xxx thành 1qazXSW@
+
+QUÝ KHÁCH vui lòng nói 2 User trên đặt lại Pass phức tạp bao gồm, chữ hoa, thường, số và ký tự đặc biệt (Ví dụ: Ktpa@2017) để tăng cường bảo mật.
+
+1 số ví dụ mail gửi ra từ 2 User:
+
+
+======= tư vấn mail server ====== 
+Hiện quý khách vẫn đang dùng mail trên hosting. Dịch vụ hosting phục vụ chủ yếu cho website, ip bị blackllist không ảnh hưởng đến việc truy cập web.
+
+Mail trên hosting có thể bị ảnh hưởng bởi các khách hàng khác như cố tình spam mail, quảng cáo, hoặc do máy tính của người nhiễm virus dẫn tới gửi mail hàng loạt, forum cấu hình gửi mail khi đăng ký hoặc thông báo tới thành viên... dẫn tới tình trạng IP bị blacklist khi đó gửi mail bị từ chối, chúng tôi vẫn theo dõi & xử lý tuy nhiên do có nhiều khách hàng khác nhau & mức độ vi phạm khác nhau nên việc xử lý cũng cần có thời gian do đó trên thế giới chứ không riêng gì P.A mới có các dịch vụ chuyên biệt như Email Server, Email Server Riêng, VPS, Server Riêng tùy thuộc vào mục đích sử dụng của khách hàng.
+
+Nếu quý khách quan tâm chất lượng mail và coi việc gửi/nhận mail rất là quan trọng trong công việc, kinh doanh và có nhu cầu sử dụng thường xuyên quý khách nên tham khảo dịch vụ Email server sẽ tốt hơn & sẽ tránh được tình trạng ip bị blacklist
+
+https://www.pavietnam.vn/vn/email-server.html
+
+
+======== MAIL virus ====
+Kỹ thuật kiểm tra hiện phía quý khách có user  đang bị lợi dụng spam mail ra bên ngoài.
+
+Khả năng có thể user trên đã bị lộ mật khẩu hoặc máy tính sử dụng nhiễm virus lợi dụng spam mail, quý khách nhận được thư thông báo vui lòng kiểm tra thay đổi lại mật khẩu user trên cũng như quét lại virus máy tính sử dụng. 
+
+Tạm thời kỹ thuật đã suspend user trên để tránh ảnh hưởng đến server, sau khi xử ly hoàn tất quý khách có thể chủ động truy cập vào tài khoản quản trị để unsuspend user.
+
+Cảm ơn quý khách.
+
+Log spam mail:
+
+Mọi thắc mắc Quý khách vui lòng gởi yêu cầu vào http://support.pavietnam.vn
+ 
+hoặc email: kythuat@pavietnam.vn để được Chúng tôi hỗ trợ nhanh chóng nhất.
+
+
+mdaemon
+
+Kỹ thuật kiểm tra hiện phía quý khách có user đang bị lợi dụng spam mail ra bên ngoài.
+
+Khả năng có thể user trên đã bị lộ mật khẩu hoặc máy tính sử dụng nhiễm virus lợi dụng spam mail, quý khách nhận được thư thông báo vui lòng kiểm tra thay đổi lại mật khẩu user trên cũng như quét lại virus máy tính sử dụng.
+
+Tạm thời kỹ thuật đã frozen user trên để tránh ảnh hưởng đến server, sau khi xử ly hoàn tất quý khách có thể chủ động truy cập vào quản trị để enable lại user.
+
+Cảm ơn quý khách.
+
+Log spam mail:
+
+Mọi thắc mắc Quý khách vui lòng gởi yêu cầu vào http://support.pavietnam.vn
+
+hoặc email: kythuat@pavietnam.vn để được Chúng tôi hỗ trợ nhanh chóng nhất.
+
+====== host virus ======= 
+Công ty TNHH P.A Việt Nam xin trân trọng gửi đến Quý khách hàng lời cảm ơn chân thành vì đã tin tưởng sử dụng dịch vụ của chúng tôi trong thời gian qua.
+
+Chúng tôi kiểm tra hosting của quý khách đang chứa 1 số shell,trojan có ý định tấn công local server
+ 
+Thông tin đường dẫn 1 số file shell:
+ 
+
+....
+Hiện tại kỹ thuật tạm thời rename các file này để hosting không bị lợi dụng gởi mail spam, nhận được thông tin quý khách vui lòng báo phía làm web ra soát lại source và kiểm tra giúp kỹ thuật.
+
+
+Mọi thắc mắc Quý khách vui lòng gởi yêu cầu vào http://support.pavietnam.vn
+ 
+hoặc email: kythuat@pavietnam.vn để được Chúng tôi hỗ trợ nhanh chóng nhất.
+
+
+====== try web 30s ==== 
+Yêu cầu của Quý khách có liên quan đến chỉnh sửa lại code, chúng tôi sẽ ghi nhận chuyển đến bộ phận thiết kế Web.
+Về dịch vụ dùng thử web30s, chúng tôi hỗ trợ chủ yếu để Quý khách sử dụng tham khảo các tính năng xem có đáp ứng nhu cầu cho mục dích website của Quý khách hay không.
+Quý khách có thể tham khảo tổng quát và tổng hợp lại những góp ý cần chỉnh sửa.
+Chúng tôi sẽ tư vấn và hỗ trợ chỉnh sữa khi dịch vụ được đăng ký chính thức.
+
+
+====== host mã dộc ====== 
+Việc bảo mật thì đương nhiên chúng tôi luôn cố gắng ở mức cao nhất có thể. Tuy nhiên ở cấp độ hosting thì mức độ bảo mật cũng có giới hạn. Trước đó chúng tôi đã tiến hành quét shell, trojan trên source code của Quý khách nhưng không phát hiện được file đang bị nhiễm virus dẫn đến tình trạng trên.
+
+Trước hết Quý khách cần kiểm tra thay đổi các password có liên quan như password hosting, database, FTP do có khả năng thông tin hosting của Quý khách đã bị lộ ra bên ngoài. Ngoài ra Quý khách nên dùng FTP sử dụng SSL/TLS để đảm bảo độ bảo mật khi kết nối đến hosting. Quý khách có thể tham khảo một số link bài viết bên dưới :
+
+https://kienthuc.pavietnam.vn/article/Software--Source-Code/Bao-mat-FTP-su-dung-FTPS--SSL,TLS.html
+https://kienthuc.pavietnam.vn/article/Linux-Hosting/Xu-ly-su-co-thuong-gap/Truy-cap-website-bang-Firefox-hoac-Chrome-gap-canh-bao-ma-doc.html
+https://kienthuc.pavietnam.vn/article/Linux-Hosting/Xu-ly-su-co-thuong-gap/Bao-mat-website-ma-nguon-mo-tren-hosting-Linux.html
+
+Do đó mức bảo mật cao nhất là khách hàng nên sử dụng server riêng còn việc hack thì có nhiều nguyên nhân (Đánh cắp ftp account, lỗi mã nguồn để hacker lợi dụng ,lỗi bảo mật hệ điều hành - vấn đề này thì PA cũng không thể khắc phục được mà phụ thuộc vào các hãng như Microsoft, Kernel đối với Linux... vi vậy họ vẫn thường xuyên đưa ra các bản vá như update mỗi khi phát hiện có lỗ hỗng... rất nhiều lý do.
+
+Hiện chúng tôi đưa ra hướng bảo mật tạm gọi là tốt nhất như sau:
+
+1.Code phải được mã hóa Zend khi đưa vào sử dụng.
+
+2.Sử dụng server riêng, khi đó sẽ dễ dàng khống chế IP được phép truy cập ssh,ftp,cpanel vào server của mình để tăng cường bảo mật.
+
+3.Các máy trạm kết nối đến host phải bảo đảm không dính trojan.
+
+4.Code phải được chắc chắn rằng không bị hacker lợi dụng upload ( vấn đề này thì phải phụ thuộc vào kinh nghiệm code của lập trình). Khi hội tủ các tư vấn và yêu cầu của chúng tôi đưa ra khi đó chúng tôi mới có thể cam kết ở mức cao nhất.
+kienthuc.pavietnam.vn
+- Bao mat FTP su dung FTPS (SSL,TLS)
+Đăng Ký Tên Miền - Domain - Hosting - VPS - Email - Dedicated Server - Colocation - Thuê Máy Chủ - Chỗ Đặt Máy Chủ - lớn nhất Việt Nam
+
+
+======== Reg SSL =======
+Lỗi cài đặt SSL thông qua Plesk 9 
+
+Mô tả: Sau khi có cert thì vào IIS > SSL certificate > complete certificate request thi import bình thường, tuy nhiên F5 lại thì không thấy có cert được install, vào Binding của website để binding thì không thấy có SSL
+
+https://support.pavietnam.vn/index.php?pa=showitem&pid=1476304&auth=4b5b4ee0901aecd5ddf85bb65f26816c
+
+Debug: mmc > file > certificate > computer acc >local computer >add
+
+Certificate > personal > certificate kiểm tra xem có cer của domain đó không, nếu có thì nhấp phải > all task > export > next > xem có mục “Yes, export private key” không, nếu không có thì có thể do trước đó sinh csr qua plesk 9 và plesk không update được key lên server
+
+Cách xử lý:
+
+Cach 1: sinh lai csr qua IIS sau đó cài qua IIS
+
+Tham khao: https://www.sslshopper.com/article-installing-an-ssl-certificate-in-windows-server-2008-iis-7.0.html
+
+Cach 2: Vào Plesk lấy private sau đó dùng tool bên dưới để convert sang file pfx
+
+https://www.sslshopper.com/ssl-converter.html
+
+Certificate Conversion Options
+
+Certificate File to Convert Choose File => file .crt phia ssl gui
+
+Private Key File Choose File => lay private key tren plesk luu lai dang .key
+
+Chain Certificate File (optional) Choose File => lay file COMODORSAAddTrustCA.crt phia ssl gui
+
+Chain Certificate File 2 (optional) Choose File => bo qua
+
+Type of Current Certificate => standard PEM
+
+Detected type from file extension
+
+Type To Convert To => PFX
+
+PFX Password => nhap hoac ko cung dc (nếu IIS 6 thì cần nhập pass để dùng khi import)
+
+=> converting
+
+
+Sau khi convert xong thì sẽ có file pfx được tải về, lấy file này vào IIS để import
+
+IIS > chon server > SSL certificate > Import > chọn file pfx
+
+Import xong tiến hành binding như bình thường.
+
+Đối với IIS 6:
+
+https://support.pavietnam.vn/index.php?pa=showitem&pid=1476508&auth=100903f657f749b8e5ef86869bdedb54
+
+Nếu bước sinh CSR thực hiện trên Plesk thì thực hiện convert certificate sang file pfx như hướng dẫn ở trên sau đó import lại theo các bước:
+
+Chọn website cần cài SSL > Properties > Directory security > chọn view certificate xem có nhận đúng SSL cần cài không, nếu không thì chọn lại server certificate > next > remove ssl cũ ra > chọn lại server certificate > next > chọn import a certificate from pfx file > next > OK
+
+Tóm lại: Do Plesk 9 đã cũ và có nhiều lỗi vặt, khi sinh csr cho khách ae nên thực hiện trực tiếp trên IIS
+
+ IIS 7: https://www.sslshopper.com/article-installing-an-ssl-certificate-in-windows-server-2008-iis-7.0.html
+
+IIS6: https://www.digicert.com/csr-creation-microsoft-iis-5-6.htm
+
+https://www.digicert.com/ssl-certificate-installation-microsoft-iis-5-6.htm
+
+===== reg livechat ===== 
+II. Tiếp nhận câu hỏi reg dịch vụ LiveChat.
+
+ - Dịch vụ LiveChat reg tự động, hệ thống tự cập nhật, mọi người vào link livechat.pavietnam.vn/administrator/login.php và đăng nhập theo thông tin user/pass trong câu REG OK là được.
+
+ - Hiện Web30s sẽ được free LiveChat-Cơ Bản. nên nếu mọi người thấy câu reg LiveChat thì check support nếu có dịch vụ Web30s kèm theo và trùng thời hạn với web30s thì đó là dịch vụ free kèm theo Web30s
+=> Câu hỏi reg dịch vụ này bạn nào phụ trách câu reg Web30s sẽ phụ trách theo dõi đến khi LiveChat hoạt động được trên website. Đối với web30s code đã làm tự động trên admin web30s sẽ có Add-on "Quản lý LiveChat" và enable sẵn. 
+Bạn support web30s trước giờ theo dõi việc cấu hình domain và chọn giao diện web cho Khách giờ chỉ làm thêm 1 việc là kiểm tra truy cập website có hiện khung LiveChat lên chưa.
+- Đối với LiveChat reg không kèm web30s, mọi người lưu ý tiếp nhận phải theo dõi (đưa vào nghiên cứu) cho tới khi Khách sử dụng được chứ không dìm câu hỏi. Khi tiếp nhận mọi người có thể trả lời trước theo keyword đã tạo sẵn trong group "Chat30s"
+
+
+
+======== GG adward ====== 
+Khi có khách cần tư vấn dịch vụ google adwords qua mail hoặc điện thoại, các bạn có thể xem nội dung sau để tư vấn:
+ Chúng tôi được biết Quý khách cần quảng cáo dịch vụ Google Adword.  
+Chúng tôi xin được gửi đến Quý khách thông tin về dịch vụ này.
+
+- Hiện tại, các gói dịch vụ Google Adword niêm yết tại website của P.A Việt Nam đang được triển khai với hình thức: Tính theo số nhấp chuột tương ứng với ngân sách đầu tư của khách hàng trong tháng.
+ 
+- Với hình thức này:
+    » P.A Việt Nam chỉ cam kết chạy quảng cáo đủ số lượng click đã báo.
+    » Trường hợp sau 01 tháng, chiến dịch chưa đạt đủ click, P.A sẽ tiếp tục duy trì QC cho KH đến khi hoàn thành đủ số click mục tiêu.
+ 
+- Về vị trí hiển thị mẫu quảng cáo: Phía P.A Việt Nam không cam kết với khách hàng hiển thị vị trí top hoặc vị trí cố định.
+» Vì vị trí hiển thị là do Google quyết định theo từng phiên đấu giá, có khi sẽ hiển thị 4 vị trí đầu trang, hoặc 3 vị trí cuối trang,
+hoặc hiển thị trang 2 ...
+
+—-------------------o0o----------------------
+ 
+- Trên là các thông tin về dịch vụ Google Adword, nếu đồng ý với hình thức triển khai trên, Qúy khách vui lòng cung cấp các thông tin sau:
+ 
+    l Website cần quảng cáo:
+    l Mức ngân sách quảng cáo muốn đầu tư:
+    l Từ khóa cần quảng cáo:
+    l Địa điểm chạy quảng cáo:
+ 
+- P.A sẽ dựa vào các thông tin trên để khảo sát từ khóa & báo số lượng click chuột trong tháng tương ứng với ngân sách mà Quý khách đã chọn.
+ 
+Cám ơn Quý khách đã quan tâm đến dịch vụ tại P.A Việt Nam.

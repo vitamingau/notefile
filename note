@@ -1,0 +1,662 @@
+mail windows : webmail.tenmien
+mail linux : mail.tenmien:2095
+mail server : mail.tenmien (quản trị :2087)
+mail Mdeamon : mail.tenmien (quản trị :1000)
+
+========= Gọi dt ======= 
+*47*8749
+2859
+
+221.121.14.70 <=> 112.213.92.70 (14<=>92 , 15<=>93 , 22 <=> 90)
+
+112.213.90.0/24 => 222.255.235.0/24
+ 
+112.213.92.0/24 => 123.30.244.0/24 
+ 
+112.213.93.0/24  => 222.255.103.0/24
+
+1304754,1316538, 1249778, 1306741, 1239238, 1242810, 1249929, 1251960, 1376982 ,1397658
+
+//mail pro #1 #2 : 25mb , pro#3 #4 50mb, #5 trên 50mb. (dung lượng mail)
+
+//plesk : :8443
+//cpanel : :2082
+//directadmin: :2222
+
+
+// plesk 9 
+tạo reseller - out - đăng nhâp  phuphan
+tạo client - out - đăng nhập client phuphan1 - 123456789
+tạo domain 
+cmd -- http://huongdanit.com/he-dieu-hanh/linux/chinh-sua-file-hosts-tren-linux.html
+ip domain 
+save 
+ping domain -- https://www.youtube.com/watch?v=BsYXzqucaXU
+
+
+// plesk ip:8443
+directadmin : ip:2222
+Cpanel : ip:2087(2082)
+host : ip:2082
+webmail : ip:2095
+shh : port 22
+
+
+// kiem tra ten mien : nslookup domain ns1.pavietnam.vn
+
+
+//hosting linux : up source code -> tạo database -> tạo user database -> phân quyền user database -> import -> cấu hình source code(wp-config) -> kiểm tra domain. ////// Kiểm tra phân quyền folder : 755 file : 644
+//chmod
+find * -type f -exec chmod 644 {} \;
+chmod thu muc
+find ./* -type d -exec chmod 755 {} \;
+
+chmod nhanh 
+chmod file 
+find * -type f -exec chmod 644 {} \;
+chmod thu muc
+find ./* -type d -exec chmod 755 {} \;
+
+// rename(plesk 12) : báo backup + xác nhận. Vào plesk -> Customers -> Change login info (rename) -> Edit Contact Info(rename) -> hosting setting(rename) 
+(cpanel) : modify account:rename. (( Vào support đổi tên + ghi log))))
+
+// kiểm tra Web chậm: f12 coi tốc độ -> coi xài code j (có nhiều plugin ko) -> Coi error log -> kiểm tra có bị tấn công ko(last visitor) -> kiểm tra (lve) xem có bị full tài nguyên ko. 
+
+
+==== tạo host win === 
+tạo customer
+
+================= NOTE 
+* Set quyền cho thư mục : 
+→ Remote vào server. xem website đang chạy pool (IWAN) nào . rồi vào aplication có pool đó chưa. Qua lại thư mục cần set quyền → chỉnh lại edit permission chỉnh lại quyền cho user đó. 
+
+* Backup dữ liệu : 
+1. FIle backup nằm tron ổ D → weekly/SOurce → vhost → domain → httpdocs
+2. File Source code chạy web nằm trong ổ C → Inetpub → vhost → domain → httpdocs.
+ → Backup thì nén lại source ổ C cho chắc. rồi tiến hành copy từ D qua C.
+
+* kê khai vào bản khai domain, không biết địa chỉ cấu hình như nào ? mong kỹ thuật giúp 
+Tên DNS Primary: NS1.PAVIETNAM.VN
+Địa chỉ IP (nếu là máy chủ tự dựng): 112.213.89.3
+Tên DNS Secondary :NS2.PAVIETNAM.VN
+Địa chỉ IP (nếu là máy chủ tự dựng):222.255.121.247
+* Redirect link a → link b : 
+https://support.pavietnam.vn/index.php?pa=showitem&pid=1328846 
+
+* Move dữ liệu từ Host khác về Host bên mình : 
+ https://support.pavietnam.vn/index.php?pa=showitem&pid=1329351
+Truy cập vào FTP quản lý Host của khách để lấy dữ liệu về máy , nén lại file rồi up lên Host bên mình. Import SQL vào (tạo database và chỉnh lại config). Xong cấu hình trỏ domain về Host bên mình . 
+
+* backup database xuống phiên bản SQL Server 2008 
+https://support.pavietnam.vn/index.php?pa=showitem&pid=1329528
+Truy cập server vào MSSQL  → Chuột phải Database domain → Tasks → Generate Scripts → Next → Advanced → Select Server version : 2008  | Type of data to scripts : Schema and data
+ 
+IMAP : Lưu dữ liệu trên server . 
+POP3 : Lấy dữ liệu từ server về oulook
+
+ * IP Host thông báo bị chặn trên web khách : 
+https://support.pavietnam.vn/index.php?pa=showitem&pid=1330607
+https://support.pavietnam.vn/index.php?pa=showitem&pid=1333608
+
+* Cấu hình domain về Mail :
+https://support.pavietnam.vn/index.php?pa=showitem&pid=1332274
+
+default._domainkey  -  TXT   -   * dig txt default._domainkey.tendoamin @IP * // vào terminal gõ lệnh 
+@  - TXT -  * v=spf1 +a +mx +ip4:112.213.93.180 +ip4:112.213.92.208 ~all *  // 93.180 Ip khách . 92.208 IP chính
+
+* Tạo chữ ký trên mail :
+https://support.office.com/vi-vn/article/T%E1%BA%A1o-v%C3%A0-th%C3%AAm-ch%E1%BB%AF-k%C3%BD-v%C3%A0o-th%C6%B0-8ee5d4f4-68fd-464a-a1c1-0e1c80bb27f2
+
+Hỏi: Tôi muốn xuất hiện logo của hãng ssl theo loại ssl trên website của chúng tôi khi tôi đăng ký thì làm thế nào?
+Đáp: Mỗi hãng đều có logo tương ứng với loại ssl mà khách hàng đăng ký sẽ có logo cho site seal khác nhau. vì dụ code sau dành cho comodo wildcard như sau, nhúng code sau vào trong code của bạn sẽ hiện thị logo của hãng theo loại mà bạn đăng
+<a href="https://ssl.comodo.com/wildcard-ssl-certificates.php">
+<img src="https://ssl.comodo.com/images/comodo_secure_seal_113x59_transp.png" alt="Wildcard SSL" width="113" height="59" style="border: 0px;"><br> <span style="font-weight:bold; font-size:7pt">Wildcard SSL</span></a><br>
+Dành cho comodo:  https://ssl.comodo.com/site-seal.php  và 
+Dành cho Geotrust:  https://www.geotrust.com/support/seal/agreement/installation-instructions/ 
+Dành cho Rapid:   https://knowledge.rapidssl.com/support/ssl-certificate-support/index?page=content&id=SO5991
+https://www.ssldirect.com/site-seal/dynamic-security-seal.php
+Dành cho Symatec:  https://www.symantec.com/ssl/seal-agreement/install.jsp
+ 
+
+* Domain bị lỗi 404 / 500 trên asp.net :
+Vào phần Inetpub → vhost  : copy file web rồi paste ra cùng forder. 
+Sau đó vô IIS  ,vào domain chọn  Handler Mapping → chọn Revert To Parent 
+ // Vô phần webconfig xem framework chạy bao nhiu rồi vô IIS xem pool của Quý khách tương ứng ko ? Nếu chưa thì set lại . Xem lại đường code database của Quý khách đúng chưa ( Vô Host xem tên DB , mysql….. copy paste vô , đăng nhập vào SQL = TK DB của khách xem có map user chưa )
+
+* Code chuyển user về sa : map user
+Vào phần My SQL trên server → Tên DB → Security → User → vào dbo xem 
+use ten_db  // tên MYSQL ( xem trong plesk ) 
+exec sp_dropuser ten_user // Tên User  ( xem trong plesk ) 
+exec sp_changedbowner ten_user 
+create user ten_user without login
+----→ Chạy lệnh trên
+
+* Nâng cấp HOST :
+Transfer Tool → IP Server + password .  → nhập tên HOst chuyển về . 
+Test thử trên Host chạy chưa → trỏ domain về IP mới → sửa lại thông tin HOst trên support  → Suspend Host cũ. 
+
+* Chuyển HĐH : ( Linux → Windown )
+Vào Server Windown ( Plesk ) tạo Host → Customer → Add Custom :
+Username Plesk : domain.com
+Username Dưới : 8 ký tự . 
+→ Đổi lại thông tin Host trên support 
+→ Trỏ IP về Host mới 
+→ Gửi lại thông tin Host mới chuyển . 
+
+
+
+
+
+* Change Site URL :
+https://codex.wordpress.org/Changing_The_Site_URL
+Edit wp-config.php
+define('WP_HOME','http://example.com');
+define('WP_SITEURL','http://example.com');
+* "ERROR: Cookies are blocked or not supported by your browser. You must enable cookies to use WordPress."
+Vào phpMyAdmin, tìm wp_options và ấn Browse, sau đó tìm mấy hàng siteurl và Home  rồi kiểm tra xem URL có chính xác không. 
+
+
+* Trỏ record mail theo khách : 
+https://support.pavietnam.vn/index.php?pa=showitem&pid=1344667
+
+
+*  Trỏ tên miền vào blogspot : 
+http://diendanmaychu.vn/showthread.php/32669-H%C6%B0%E1%BB%9Bng-d%E1%BA%ABn-c%E1%BA%A5u-h%C3%ACnh-add-t%C3%AAn-mi%E1%BB%81n-v%C3%A0o-blogspot
+
+*  Trỏ tên miền vào google site : 
+https://www.diendanmaychu.vn/showthread.php/32601-H%C6%B0%E1%BB%9Bng-d%E1%BA%ABn-s%E1%BB%AD-d%E1%BB%A5ng-Domain-ri%C3%AAng-cho-google-site
+
+* IP bị chặn :
+
+→ WHM → fire → Search system → Quick Unlock
+
+
+** https://support.pavietnam.vn/index.php?pa=serverdangtaohost
+
+* Chúng tôi xin nói rõ hơn về lỗi: 501 <mail.zwilling.com.vn> is invalid or DNS says does not exist
+Nguyên nhân là do mail.zwilling.com.vn không trỏ về ip nào, không phân giải DNS được . 
+* User mail bị khóa do virus :
+Vô admin đổi pass phức tạp → Quét virus trên máy tính → gửi yêu cầu bên PA mở lại user . 
+* IP bị chặn :
+https://support.pavietnam.vn/index.php?pa=showitem&pid=1348085
+
+* Session log out : Your internet Address has change since the beginning of your session . To protect your security , You must login again
+ vô host  → gõ tw → chọn tweak setting →  trong khung find → gõ cookie → Cookie IP  validation   → disable nó đi 
+
+* Restore Database :
+Remote server lấy file database copy qua Con 173 server 
+→ MSSQL → Tên DB → Task → Restore → Device → Add 
+Option → Overwrite  → OK
+
+* Lỗi 421 Mail :
+https://support.pavietnam.vn/index.php?pa=showitem&pid=1349023
+→ Đổi cấu hình Port SMTP thành 587 
+
+* Bị lỗi 404 trên joomla : Redirect URL
+→ Kiểm tra xem có file .htaccess có code chưa ? → Nếu chưa có thì copy file htaccess gốc cùa joomla về paste qua . 
+→ Vô Config → search URL redirect chuyên thành số 1 . 
+
+* Kích hoạt chức năng CHMOD :
+Remote vào Server → vi /etc/cl.selector/php.conf → Bỏ 4 # Directive = disable _functions xuống Comment   = disable_function
+→ Vào Cpanel → Select PHP → error_reporting : xóa CHMOD 
+→ Test : tạo file xxx.php → codephp → chạy site → OK
+→ Vào add lại 4 # → OK
+vtbtruongthinh.com.vn
+
+* Mail gửi vô spam :
+
+http://kienthuc.pavietnam.vn/article/VPS-Dedicated-Colocation/Huong-dan-Thu-thuat/Cau-hinh-DKIM,-SPF-de-tang-do-tin-cay-khi-gui-mail.html
+http://kienthuc.pavietnam.vn/article/Email-Server/Xu-ly-su-co-thuong-gap/Nguyen-nhan-va-cach-khac-phuc-khi-gui-mail-vao-Spam,-Junk-Email.html
+
+* POP3 đăng nhập trên nhiều thiết bị sẽ bị báo lỗi .
+
+
+* Resource Limit Is Reached
+The website is temporarily unable to service your request as it exceeded resource limit. Please try again later. 
+
+→ Vào cpu 
+
+* Restore trên linux :
+1.  /scripts/pkgacct tenUser   → Backup lại HOst hiện tại 
+2. tar -cvf tenUser.tar tenUser/   → Nén file backup lại
+3. cp tenuser.taz /home  → chuyển ra thư mục home
+4. Vô Host → Restore a full Backup → nhập tên user  → tick chọn Overwrite
+
+
+* WebAdmin Mail truy cập ko đc → Restart lại server
+* Xem tên Host trên Server root : 
+ vi /etc/httpd/conf/httpd.conf
+search : esc /domain.com
+exit : esc :q!
+
+
+* Lỗi #1273 - Unknown collation: 'utf8mb4_unicode_520_ci'
+1. Nâng cấp servion php
+2. Mở file database → ctrl H → sửa lại tên  “utf8mb4_unicode_520_ci “ thành “ utf8_unicode_ci”
+
+đổi trên server : 
+:%s/\<UNIX\>/Linux/gc
+
+
+* 
+Memory_limit: quý khách có thể hiểu nôm na là giới hạn bộ nhớ cho một lần request từ phía client, thông thường thông số được set mặc định 128MB, Nhưng hiện đã tăng cho quý khách 512 MB cho thấy code quý khách sử dụng khá nhiều tài nguyên để thực thi.
+
+Vi dụ: Khi 1 script PHP được chạy thì nó cần có 1 lượng bộ nhớ (memory) nhất định để lưu các giá trị cần thiết để script đó có thể chạy được (các giá trị lưu trong các biến được sử dụng trong script là 1 cái dễ hình dung nhất).
+
+
+======== Flush cache ====
+Flush DNS Google:
+https://developers.google.com/speed/public-dns/cache
+
+Refresh DNS OpenDNS
+https://cachecheck.opendns.com/
+
+
+======== SPF + DKIM
+C:MDaemonPemMDaemon, mở file dns_readme.txt để lấy 2 DKIM đầu tiên trong file này cấu hình lên domain của quý khách.
+Còn SPF, quý khách cấu hình như sau:
+Host: @ hay tendomain
+Record Type: TXT
+Address: v=spf1 a mx ~all (v=spf1 +a +mx +ip4:112.213.92.125 ~all)
+hinh trong tab dkim sign check 2 muc sign va bam nut tao new public and private key
+-------------------------
+dig test.tiengvang.net @ns1.pavietnam.vn
+dig mx test.tiengvang.net @ns1.pavietnam.vn
+nslookup test.tiengvang.net 8.8.8.8
+
+dig TXT default._domainkey.mss-marine.sg @112.213.92.150 tim dkim cua domain mail thay ten mien va ip
+dig txt x._domainkey.tinhdauhuongthao.com. @112.213.93.27
+
+vd : v=DKIM1\; k=rsa\; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAm6PwmnzZRGt7oAAHimZS/yW1kmP1XXusoLjyu2lH2Td9OyxSQVRjZHI+9yFSAYx/qwhtuB5KP/5aYwqaJ5+AfEazTnCSydLJJyNjVix+Ax+V4RoFDX/51BUdiAnFMiJlvOcE7qc8Gt1679SoynXsclDvHc0RpuOrFT05o2a+Qk0AKa8Ahz47s85f2Nv0eBd1h5DSBstLA28FcRbxqlox2AYXJfnA1Refe5GVpSNNGyv/w2bZHdZAzdrrzcpuc2DKbM88IH/5SD+pPkal2wLdVUOOLL7rTNRfZFQBO+dkWXazRGd4BDam5lnsiBTLpfEKs50fZAlpXugD5Q3XWUE0ZQIDAQAB
+
+
+default._domainkey.mss-marine.sg. 14400	IN TXT	"v=DKIM1\; k=rsa\; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAm6PwmnzZRGt7oAAHimZS/yW1kmP1XXusoLjyu2lH2Td9OyxSQVRjZHI+9yFSAYx/qwhtuB5KP/5aYwqaJ5+AfEazTnCSydLJJyNjVix+Ax+V4RoFDX/51BUdiAnFMiJlvOcE7qc8Gt1679SoynXsclDvHc0RpuOrFT05o2a+Qk0AKa8Ahz47s85f2Nv0eBd1h" "5DSBstLA28FcRbxqlox2AYXJfnA1Refe5GVpSNNGyv/w2bZHdZAzdrrzcpuc2DKbM88IH/5SD+pPkal2wLdVUOOLL7rTNRfZFQBO+dkWXazRGd4BDam5lnsiBTLpfEKs50fZAlpXugD5Q3XWUE0ZQIDAQAB\;"
+
+
+===== RESET PASS WP 
+https://codex.wordpress.org/Resetting_Your_Password
+
+
+====== Iphone (1390157)
+
+====== Plugin WP : https://wordpress.org/plugins/p3-profiler/( kiểm tra CPU)
+
+===== webcare ====== 
+
+Sản phẩm -> thêm -> -> thêm tên -> hình thì rename cho giống nhau -> image -> source -> paste -> lưu 
+
+===== Outlook ====== 
+ Tools>Account>More Setting> Advance>mục Server Timeouts
+
+
+=======
+ls | cat -n | while read n f; do echo '<img alt="" height="900" src="http://shassta.com/image/data/FASHION/Show/Victoria_Beckham_Fall_2017_RTW/'$f'" width="600" />' >> file.txt; done
+
+
+====== web 30s===== 
+Các trường hợp tiếp nhận Reg Web30s, add-on web30s, các bạn chú ý:
+
++ Reg mới web30s, kiểm tra domain bên mình đăng ký cùng thời điểm với Web30s thì cấu hình giúp khách hàng luôn, còn domain không phải của mình thì gán file hosts local chạy thử web. Sau đó login admin của Web30s thử xem user/pass đăng nhập được không?
+
++ Reg service add-on, nếu cùng lúc với web30s thì đăng nhập admin kiểm tra xem các dịch vụ kích hoạt đủ chưa? Nếu chưa đủ, chờ ít nhất 15-20 phút để hệ thống kích hoạt tự động. Nếu chưa thì gửi email báo anh Kỳ kích hoạt.
+
++ Các add-on khách hàng đăng ký sau 1 thời gian đả sử dụng Web30s, các câu reg có thể kiểm tra bằng user/pass mặc định của Web30s (không phải user/pass trên câu reg add-on) xem login được không? Nếu được thì kiểm tra dịch vụ kích hoạt thành công hay chưa? Không kích hoạt tự động được thì báo anh Kỳ kích hoạt qua email.
+
+Tránh trả lời như câu 1461459 - haiautourist.com.vn.
+
+Lộc hướng dẫn lại cho các bạn mới.
+
+
+==== SSL ====
+comodo
+Quý khách vui lòng thực hiện các bước sau:
+1 – Vui lòng tạo một email admin (email này sẽ dùng để xác nhận và nhận cert, ngoài ra quý khách còn có thể liên hệ với nhà cung cấp ssl về sau nếu cần sinh lại ssl khi thay đổi ip hay server )
+theo đúng định dạng 1 email dạng : administrator@alodenled.vn    
+ 
+2 - Sinh CSR theo các công cụ hỗ trợ từ control panel cpanel mà quý khách đang sử dụng
+hoặc theo các hướng dẫn:
+https://csr.superdata.vn/
+https://support.comodo.com/index.php?_m=knowledgebase&_a=view&parentcategoryid=33&pcid=1&nav=0,96,1
+Chú ý : Lưu giữ kỹ private key (.key) trong quá trình sinh csr để phục vụ cho việc active về sau.
+ 
+3 - Check xem đúng csr hay không :  https://secure.comodo.net/utilities/decodeCSR.html   
+ 
+4 - Cung cấp CSR cho pa việt nam
+Cung cấp tên người đại diện
+ 
+Chức danh
+ 
+Tên công ty
+ 
+Địa chỉ công ty
+ 
+Số điện thoại
+ 
+Số fax
+ 
+Lưu ý : tất cả dùng form tiếng anh (tiếng việt không dấu).
+ 
+5 - Cho biết version và webserivce đang dùng, (ví dụ : apache 2 ,iis 6 v.v...)
+ 
+6 – Cho biết tên miền đăng ký dịch vụ ssl (phân biệt rõ có và không có www)
+
+
+rapidssl
+
+Quý khách vui lòng thực hiện các bước sau để chúng tôi đăng ký cho quý khách :
+
+
+1 – Vui lòng tạo một email admin (email này sẽ dùng để xác nhận và nhận cert , ngoài ra quý khách còn có thể liên hệ với nhà cung cấp ssl về sau nếu cần sinh lại ssl khi thay
+đổi ip hay server ) theo đúng định dạng 1 email dạng : admin@danangxanh.vn
+ 
+2 - Sinh CSR theo các công cụ hỗ trợ từ control panel cpanel mà quý khách đang sử dụng hoặc theo các hướng dẫn
+https://csr.superdata.vn/
+https://knowledge.rapidssl.com/support/ssl-certificate-support/index?page=content&id=SO6506&actp=LIST&viewlocale=en_US
+Chú ý : Lưu giữ kỹ private key (.key) trong quá trình sinh csr để phục vụ cho việc active về sau.
+ 
+3 - Check xem đúng csr hay không : https://www.rapidsslonline.com/checkcsr.aspx     
+ 
+4 - Cung cấp CSR cho pa việt nam
+Cung cấp tên người đại diện
+ 
+Chức danh
+ 
+Tên công ty     
+ 
+Địa chỉ công ty
+ 
+Số điện thoại
+ 
+Số fax
+ 
+Lưu ý : tất cả dùng form tiếng anh (không ghi dấu tiếng việt)
+ 
+5 - Cho biết version và webserivce đang dùng. (vd : apache 2 ,iis 6 v.v...)
+ 
+6 – Cho biết tên miền đăng ký dịch vụ ssl (phân biệt rõ có và không có www)
+
+
+-------------------
+HI all,
+
+Vấn đề khách thay đổi CSR cần sinh lại CERT mới anh em có thể dùng những link sau để chủ động sinh lại CERT cho khách, không cần phải chuyển cho PN nữa.
+
+Bước 1: Anh em xin thông tin tài khoản email mà khách dùng để approve trước đó(Mục đích để confirm và lấy thông tin Order ID) Hoặc nói khách cung cấp dùm cái Order ID.
+
+Đối với hãng GeoTrust SSL.
+
+Anh em truy cập vào link https://products.geotrust.com/orders/orderinformation/authentication.do nhập Email, Domain vào và Request Access, phía GeoTrust sẽ gửi 1 link confirm vào email, anh em approve và sẽ vào được link quản lý, nhập lại CSR mới, xong reissue Cert cho khách.
+
+Đối với Synmantec
+
+Tương tự như GeoTrust anh em vào link https://products.websecurity.symantec.com/orders/orderinformation/authentication.do
+
+Đối với Comodo.
+
+HIện tại thì Comodo nó không có form để request đổi CSR do đó chỉ có thể đổi qua Reseller, vì vậy trước mắt anh em cứ gửi lại CSR để PN submit.
+
+ 
+
+ 
+
+ 
+
+Sau khi submit CSR thì thông thường khoảng 5-30 phút là có Email Approve(các chứng chỉ OV hoặc EV có khả năng lâu hơn) vì vậy mọi người lưu ý không phản hồi khách là qua ngày hôm sau nhé. Nếu sau 30 phút anh em check hoặc khách check báo chưa nhận được link để approve, thì anh em vào live chat trực tiếp với tụi nó và cung cấp thông tin Order ID kêu nó resend lại email approve.
+
+Live chat GeoTrust: https://www.geotrust.com/support/chat/
+
+Live chat Comodo:  https://www.instantssl.com/livechat/chatsupport.html
+
+Live chat Synmantec: https://knowledge.symantec.com/kb/index?page=chatConsole
+
+
+======= SSL Free ===== 
+Đối với SSL free:
+
+- 1 số trình duyệt cũ sẽ bị giới hạn không vào được
+- Chính sách bảo hiểm : không có .
+- Không hiển thị thông tin như tên công ty trên thanh công cụ.
+
+- Renew lại với mỗi sau 3 tháng trong khi có phí là 1 năm
+
+- Trong quá trình sử dụng bị phát sinh lỗi thời gian nhận được sự cầu hỗ trợ từ phía nhà cung cấp ssl free sẽ lâu hơn có phí rất nhiều.
+
+
+
+
+
+
+======== Name server ==== 
+ns record
+để chơi cho 1 subdomain dùng dns khác với dns hiện tại của domain để phân giải
+vd: abc.com có subdomain m.abc.com chạy dns khác
+abc.com xài dns ns1.pa ns2.pa m.abc.com xài dns ns1.matbao ns2.matbao
+thì cấu hình như trong hình khách gởi câu sp của a Cẩn
+khi đó abc.com vẫn dùng dns của pa nhưng subdomain m.abc xài matbao để phân giải
+
+child name
+nếu là tên miền vn ko cần vào cấu hình trong child name mà cấu hình trên trang cấu hình tên miền lun
+vd: abc.vn cấu hình 2 dns là ns1.abc.vn ns2.abc.vn thì cấu hình thêm 2 record ns1 A ipdns | ns2 A ipdns là xong
+có ghi rõ khi vào mục childname của 1 tên miền vn lun "Tên miền Việt Nam quý khách vui lòng tạo sub domain thay thế |  Tạo subdomain"
+nếu là tên miền quốc tế vào mục childname bỏ vào ns1, ns2 bên kia để ip DNS server, dùng DNS này để phân giải tên miền cho các tên miền khác
+
+========== ADMIN 30s ==== 
+http://admin30s.web30s.vn Pin: 99818283
+
+admin/?adminpa=1
+
+====== check tên miền quốc tế ===== 
+https://www.punycoder.com/
+
+
+
+====== cấu hình mail ===== 
+linux
+mail ---- CNAME---- mail9351.maychuemail.com
+mx ---- CNAME ---- mx9351.maychuemail.net
+@ ---- MX---- mail9351.maychuemail.com ---- 5
+@ ---- MX ---- mx9351.maychuemail.net ---- 10
+@ ---- TXT ---- v=spf1 +a +mx +ip4:112.213.93.51 ~all
+dkim._domainkey  CNAME dkim._domainkey.mail9351.maychuemail.com
+
+90.57
+mail ---- CNAME---- mail9057.maychuemail.com
+mx ---- CNAME ---- mx9057.maychuemail.net
+@ ---- MX---- mail9057.maychuemail.com ---- 5
+@ ---- MX ---- mx9057.maychuemail.net ---- 10
+@ TXT v=spf1 include:spf.maychuemail.com ~all
+dkim._domainkey CNAME dkim1.maychuemail.com
+
+Window
+mail ---- CNAME---- mail235185.maychuemail.com
+mx ---- CNAME---- mx90185.maychuemail.net
+@ ---- MX ---- mail235185.maychuemail.com ---- 5
+@ ---- MX ---- mx90185.maychuemail.net ---- 10
+
+======== VNPT
+ 2. Trường hợp link cpanel là https://megadomain.vnn.vn 
+
+- Sử dụng trình duyệt IE8 trở xuống, và cấu hình enable TLS 1.0, SSL 2.0 trong Internet Options
+
+- Khi truy cập báo SSL click Continue để tiếp tục, Nếu sau khi click ra trang trắng, thì copy link sau truy cập trực tiếp để vào trang login và cấu hình.
+
+   https://megadomain.vnn.vn/customer/home.hyper
+
+========== live chat ======= 
+chuyển nam lê 
+
+Để quản lý livechat
+
+Quý khách có thể tham khảo link hướng dẫn sử dụng http://chat30s.com/vn/huong-dan.html
+
+
+
+====== winmail.dat ===== 
+Về lỗi này là do phần mềm outtlook của Microsoft, khi mail được định dạng RTF thì sẽ có file winmail.dat để user nhận mail bằng Outlook có thể xem được định dạng. File này chỉ có thể decode bởi Outlook hoặc dùng tool decode. Trường hợp lỗi này thỉnh thoảng sẽ bị như vậy nếu người sử dụng mail Outlook để gửi. Để xử lý vần đề trên Quý Khách vui lòng tham khảo hướng dẫn cấu hình lại trong outlook của Quý Khách.
+
+Nguyên nhân được giải thích tại:
+
+http://www.altn.com/Support/FAQ/FAQResults/?Number=KBA-01500
+
+Microsoft hướng dẫn xử lý:
+
+https://support.microsoft.com/en-us/help/278061/email-received-from-a-sender-using-outlook-includes-a-winmail-dat-atta
+
+Văn bản Tiếng Việt: https://support.microsoft.com/vi-vn/help/278061/email-received-from-a-sender-using-outlook-includes-a-winmail-dat-atta
+
+Xin được hướng dẫn quý khách.
+
+====== rename directadmin === 
+http://112.213.93.27:1000/CMD_ADDITIONAL_DOMAINS?domain=
+
+
+===== check spam ==== 
+http://112.213.93.4/strong_forward.txt
+http://112.213.93.4/diskspace_status.html
+
+Khi monitor Queue Mail - Down trên các server mail Cpanel chung, anh em có thể ssh vào server chạy 2 script dưới đây để hỗ trợ cho việc check spam:
+
+# Thống kê danh sách các địa chỉ đang gởi ra và số lượng mail gởi đang nằm trong Queue
+
+sh /root/mail_queue.sh
+
+# Thống kê số lượng mail domain gởi ra trong ngày
+
+sh /root/domain_smtpout.sh
+
+ lsof -i | grep smtp
+
+==== update license ======
+https://verify.cpanel.net/
+/usr/local/cpanel/cpkeyclt
+    
+===== SSL window tao file .pfx chay tren linux ===== 
+openssl pkcs12 -export -out certificate.pfx -inkey privateKey.key -in certificate.crt -certfile CACert.crt
+
+
+
+====== Window 8912 ======
+service.msc -> window process activision -> rétart
+
+
+
+===== check ip connection linux ==== 
+netstat -ntu | awk '{print $5}' | cut -d: -f1 | sort | uniq -c | sort -n
+netstat -anp |grep 'tcp\|udp' | awk '{print $5}' | cut -d: -f1 | sort | uniq -c | sort -n
+cat /proc/loadavg | sed 's/\./ /' | awk '{print $1}'
+
+netstat -ntu | awk ' $5 ~ /^(::ffff:|[0-9|])/ { gsub("::ffff:","",$5); print $5}' | cut -d: -f1 | sort | uniq -c | sort -nr
+
+# Realtime
+watch "netstat -an | grep ':80' | awk '{print \$5}' | sed s/'::ffff:'// | cut -d\":\" -f1 | sort | uniq -c"
+
+watch "netstat -an | grep :80 | awk '{print \$6}' | sort | uniq -c"
+netstat -an | grep ':80' | awk '{print $5}' | sed s/'::ffff:'// | cut -d":" -f1 | sort | uniq
+
+====== SSL không hỗ trợ trình duyệt cũ ==== 
+Kỹ thuật xin gởi lại thông tin một số trình duyệt mà GeoTrust và RapidSSL hỗ trợ để Quý khách tham khảo thêm.
+
+https://www.geotrust.com/support/system-compatibility/
+
+https://knowledge.rapidssl.com/support/ssl-certificate-support/index?page=content&id=SO14005
+
+Theo đó với RapidSSL thì chỉ hỗ trợ IE8 trở lên, IE6 và IE7 không còn được hỗ trợ nữa.
+
+Hiện tại thì GeoTrust và RapidSSL đều đã được DigiCert mua lại.
+
+Để xem các trình duyệt được Comodo hỗ trợ, Quý khách có thể tham khảo link dưới đây.
+
+https://support.comodo.com/index.php?/Knowledgebase/Article/View/1208/0/ssl-browser-compatibility
+
+
+===== check port ===== 
+netstat -lntp
+
+
+====== geotrust san ===== 
+1860ZJ3722
+
+
+=== sms brandname ==== 
+daily :  2041WQ2400
+ca nhan : 2S5U008070
+
+
+
+ ===== SSL config ==== 
+ <base href="http://<?=$config_url?>/"  /> thành <base href="https://<?=$config_url?>/"  />
+
+ 
+ ===== convert SSLshopper ====
+ https://www.sslshopper.com/ssl-converter.html
+
+Certificate Conversion Options
+
+Certificate File to Convert Choose File => file .crt phia ssl gui
+
+Private Key File Choose File => lay private key tren plesk luu lai dang .key
+
+Chain Certificate File (optional) Choose File => lay file COMODORSAAddTrustCA.crt phia ssl gui
+
+Chain Certificate File 2 (optional) Choose File => bo qua
+
+Type of Current Certificate => standard PEM
+
+Detected type from file extension
+
+Type To Convert To => PFX
+
+PFX Password => nhap hoac ko cung dc (nếu IIS 6 thì cần nhập pass để dùng khi import)
+
+=> converting
+
+
+==== redirect codeignitor ==== 
+RewriteEngine On
+RewriteCond %{HTTPS} !=on
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+And the */application/config/config.php file includes :
+
+$config['base_url'] = "https://phuonghuyen.vn";
+
+
+--- SSL ---
+/.well-known/pki-validation
+
+===== SSL ====
+-----BEGIN PRIVATE KEY-----
+-----END PRIVATE KEY-----
+-----BEGIN CERTIFICATE REQUEST-----
+-----END CERTIFICATE REQUEST-----
+-----BEGIN CERTIFICATE-----
+-----END CERTIFICATE-----
+
+==== tmp cdn ==== 
+Dịch vụ đã được khởi tạo. Qúy khách vui lòng đăng nhập với thông tin sau:
+
+ https://id.cdn30s.vn
+Username: 
+Password: 
+
+Hiện website xxxxx Quý khách đang sử dụng ssl (https://xxxx) vì vậy khi tạo resource cdn.xxxx Qúy khách cũng cần phải sử dụng SSL cho domain này. 
+Quý khách nên đăng ký chứng chỉ SSL cho cdn.xuanthu.jewelry để hoạt động cho ổn định:
+https://www.pavietnam.vn/vn/ssl-baomat.html
+Trường hợp nếu Quý khách không có ssl cho cdn.xxx Quý khách có thể sử dụng ssl free ( 90 ngày) bằng hướng dẫn sau:
+
+ Để tạo ssl trên cdn của PA , Quý khách tham khảo các bước bên dưới:
+
+Bước 1: Cấu hình record cdn A trỏ đến IP ssl là 112.213.91.21
+cdn.xxx  |    A   |    112.213.91.21
+Sau khi ping cdn.file.alotrip.com về 112.213.91.21 rồi thì vào link https://id.cdn30s.vn/create_free_ssl.php để lấy cert, CA và private, download toàn bộ về local.
+
+Bước 2: Tạo cdn record có ssl:  đăng nhập vào id.cdn30s.vn  -> chọn mục thêm mới CDN resource -> nhập đầy đủ thông tin theo hướng dẫn, chọn mục có ssl (https)
+Trong form có ssl dòng cert và ca thì copy cert và CA vào chung 1 form
+Tương tự form private cũng copy và nhập vào, nhấn submit để hoàn thành tạo cdn resource
+Chú ý: cert, ca, va private phải nhập đầy đủ.
+
+Bước 3: sau khi tạo cdn resource xong sẽ có DNS setting, copy chuỗi DNS này vào quản lý domain
+Sửa lại record cdn cấu lại như sau
+cdn.file  |   CNAME   |   chuỗi DNS setting    -> lưu lại là xong
+Đợi 15 phút để DNS cập nhật là hoàn thành.
+

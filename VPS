@@ -1,0 +1,348 @@
+====== Move host -> vps =====
+backup host 
+ssh vps -> wget http://www.pusathosting.com/file/da.cpanel.import.9.4.tar.gz ->tar -zxvf da.cpanel.import.9.4.tar.gz 
+tao 2 folder import export -> move backup sang 
+vi defaults.conf -> IP , ns1 ns2
+chmod +x da.cpanel.import.pl
+./da.cpanel.import.pl -> y -> 
+DA -> admin backup /restore -> use the ip from list -> 
+
+http://forum.directadmin.com/showthread.php?t=2247
+
+scp tenfile root@ip:/import  
+======= 
+
+===log loi===
+/var/log/httpd/domain/hungphatdoor.vn_err 
+
+tail -100 /var/lib/mysql/kichi.dotvndns.vn.err 
+
+##phpmyadmin 4.0
+https://files.phpmyadmin.net/phpMyAdmin/4.0.10.20/phpMyAdmin-4.0.10.20-all-languages.tar.gz 
+
+yum -y install wget && wget http://d.hnvietnam.vn/da/setup && chmod +x setup && ./setup
+
+##doi pass root mysql
+https://help.directadmin.com/item.php?id=45
+
+##loi cai GIT - git: /usr/local/lib/libz.so.1: no version information available
+http://forum.directadmin.com/showthread.php?t=48254
+
+##tang dung luong upload lite speed 
+vi /usr/local/lsws/conf/httpd_config.xml 
+maxReqBodySize
+
+##change pass dong loat user 
+https://help.directadmin.com/item.php?id=426
+http://forum.directadmin.com/showthread.php?t=28337
+
+START=$(date +%s.%N)
+curl google.com
+END=$(date +%s.%N)
+DIFF=$(echo "$END - $START" | bc)
+echo "Request time: $DIFF"
+
+##cai APC opcache
+https://help.directadmin.com/item.php?id=400
+https://www.litespeedtech.com/support/wiki/doku.php/litespeed_wiki:php:apc
+
+##chuyen cpanel sang DA 
+
+1/ wget http://www.pusathosting.com/file/da.cpanel.import.9.4.tar.gz
+tar xvf da.cpanel.import.9.4.tar.gz
+2/ Create import and export directories for the tool to use. (mkdir import export)
+3/ Copy your cPanel user backups into the import directory.
+4/ Edit defaults.conf to match the DA server you will be restoring to. The only fields you must change are the IP and name server fields. The tool will not work if you fail to do this! -> doi ip thanh ip server 
+5/ Execute perl da.cpanel.import.pl and follow the on-screen instructions (which will duplicate the steps here to a degree).
+6/ After the tool is finished converting (or as it completes each individual user), move your new DA user backups from the export directory to any DA /home/RESELLER/user_backups directory*
+7/ Restore the DA user backups in DA's reseller-level Manage User Backups tool.
+
+##build vhost 
+extra feature - DPLiteSpeedDA Manager - Build Vhosts - rebuild now
+
+##tat thong bao brute attack
+echo "hide_brute_force_notifications=1" >> /usr/local/directadmin/conf/directadmin.conf
+            restart dierctadmin
+		
+##cai ssl 
+https://kienthuc.pavietnam.vn/category/SSL/Directadmin
+
+##cai nginx reverse proxy 
+http://forum.directadmin.com/showthread.php?t=49438
+112.213.88.3 datapool
+wget http://datapoolvn.com/DirectAdmin/dpnginxda/dpnginxda-2.4.x64.tar.gz
+
+
+##tat mx DA
+https://www.diendanmaychu.vn/showthread.php/1205-T%E1%BA%AFt-MX-local-trong-directadmin-!
+
+##setup mail.domain 
+https://help.directadmin.com/item.php?id=92
+
+##trong directadmin mục tạo user có cấu hình mục <Suspend At Limit	>
+
+##your ip is blacklisted
+https://help.directadmin.com/item.php?id=306
+
+##thong tin mysql DA
+cat /usr/local/directadmin/scripts/setup.txt
+cat /usr/local/directadmin/conf/mysql.conf
+
+##tang thoi gian phan hoi khi import db 
+max_execution_time = 3600
+
+mysqldump -u da_mysql -p'rYorB7OU' [database_name] > dumpfilename.sql
+
+grep <ten db> //tim file cau hinh connect db
+
+##log
+https://help.directadmin.com/item.php?id=11
+/var/log/httpd/error_log
+/var/log/httpd/domains/domain.com.error.log
+
+##/usr/local/directadmin/directadmin
+https://help.directadmin.com/item.php?id=284
+
+##reset permission
+cd /usr/local/directadmin/scripts
+./set_permissions.sh all
+
+cd /usr/local/directadmin/scripts && ./set_permissions.sh user_homes
+find /home/*/domains/*/public_html -type d -print0 | xargs -0 chmod 711
+find /home/*/domains/*/public_html -type f -print0 | xargs -0 chmod 644
+cd /usr/local/directadmin/data/users && for i in `ls`; do { chown -R $i:$i /home/$i/domains/*/public_html;}; done; 
+
+cd /home
+for i in `ls`; do { chown -R $i:$i $i; }; done;
+
+http://forum.directadmin.com/showthread.php?t=44743
+
+##How to install custombuild 2.0?
+cd /usr/local/directadmin
+wget -O custombuild.tar.gz http://files.directadmin.com/services/custombuild/2.0/custombuild.tar.gz
+tar xvzf custombuild.tar.gz
+cd custombuild
+./build
+
+./build all d
+./build update_da
+
+##How to upgrade custombuild to 2.0?
+cd /usr/local/directadmin
+mv custombuild custombuild_1.x
+wget -O custombuild.tar.gz http://files.directadmin.com/services/custombuild/2.0/custombuild.tar.gz
+tar xvzf custombuild.tar.gz
+cd custombuild
+./build update_da
+
+./build apache
+./build php n
+./build rewrite_confs
+
+./build all d
+
+##chuyen webserver sang litespeed
+https://www.litespeedtech.com/support/wiki/doku.php/litespeed_wiki:directadmin:custombuild-installation
+
+cd /usr/local/directadmin/custombuild
+./build update
+./build set webserver litespeed
+./build set php1_mode lsphp
+./build litespeed
+./build php n
+
+##them option php
+https://help.directadmin.com/item.php?id=252
+http://thegioivps.com.vn/knowledgebase/10/B-sung-Module-m-rng-Soap-vao-PHP-bng-custombuild-ca-DirectAdmin.html
+
+##cai litespeed
+
+http://nguyenhuuhoang.com/huong-dan-cai-dat-litespeed-server-tren-centos-6-x/
+reset pass admin litespeed:
+cd /usr/local/lsws/admin/misc
+./admpass.sh
+./usr/local/lsws/admin/misc/admpass.sh
+
+Không đăng nhập được webadmin litespeed:
+vi /usr/local/lsws/conf/httpd_config.xml
+đổi lại user apache thành lsadm
+ở 2 dòng:
+<user>
+<group>
+
+Sau khi vào cấu hình xong thì trả lại user apache mới chạy được web
+
+##chuyen doi giua litespeed va apache
+/usr/local/directadmin/scripts/lsws/script-dplswsda switch apache
+chuyển sang litespeed cần xem check owner trong mục security 7080
+
+##loi ko hien web
+https://help.directadmin.com/item.php?id=242
+
+##build lai vhost litespeed
+/usr/local/directadmin/scripts/lsws/script-dplswsda vhost
+
+##cai module php
+wget http://pecl.php.net/get/imagick-2.3.0.tgz
+tar -zxf imagick-2.3.0.tgz
+cd imagick-2.3.0
+phpize
+locate imagick.so | rm -rf /usr/lib64/php/modules/imagick.so
+./configure —with-imagick=/usr/local
+make
+make install
+mv /usr/local/php5/lib/php/extensions/no-debug-non-zts-20060613/imagick.so /usr/lib64/php/modules/
+vi /usr/local/directadmin/custombuild/configure/ap2/configure.php5 add line —with-imagick=/usr/local
+/usr/local/directadmin/custombuild/build php n
+
+##sinh DKIM
+https://help.directadmin.com/item.php?id=569
+
+Khi nâng lên các phiên bản pHP cao hơn sẽ có 1 số thay đổi ! Cụ thể là 1 số thu viện sẽ hỗ trợ thêm đồng thời 1 số hàm hoặc thu viện sẽ ngưng hỗ trợ ! Vấn đề này quý khách vui lòng liên hệ phía làm web xem các web cũ có sử dụng các thu viện này không ? 
+
+
+##103.1.239.100/~ilaw/
+To disable IP/~user access just remove both "AliasMatch ^/~([^/]+)(/.*)* /home/$1/public_html$2" lines from /etc/httpd/conf/extra/httpd-vhosts.conf. Remember to create a custom copy of its template if you are using CustomBuild or the file will be overwritten.
+Also make sure extra/httpd-userdir.conf states "UserDir disabled".
+
+##mysql bị crash
+http://wiki.matbao.net/Su-dung-Forcing-Innodb-Recovery-de-khoi-phuc-du-lieu-MySQL.ashx
+innodb_force_recovery = 6
+
+letsencrypt thì phiên bản directadmin phải 1.5 và custome 2.0 thì mới cài được.
+
+##cai memcache
+https://www.diendanmaychu.vn/showthread.php/33776-H%C6%B0%E1%BB%9Bng-d%E1%BA%ABn-c%C3%A0i-memcache
+
+https://xikebattu.wordpress.com/2012/12/24/dinh-nghia-php-cgisuphpfastcgi-php-handler-la-gi/
+
+
+
+##loi roundcube
+import lai da_roundcube tu roundcube/SQL
+doi pass của user da_roundcube
+kiểm tra user da_roundcube của mysql 
+
+
+https://www.diendanmaychu.vn/showthread.php/1204-D%C3%B9ng-ti%E1%BA%BFng-vi%E1%BB%87t-trong-webmail-!
+
+## tro subdomain ve folder
+Chọn Home để về trang chủ --> chọn Site Redirection --> Điền các thông số local url path điền tên folder 
+Sau khi add subdomain, hệ thống sẽ tạo cho bạn 1 folder với tên giống subdomain đã tạo bên trong thư mục public_html, truy cập vào folder đó và upload source code của website
+
+
+##I only want my IP to be able to execute Admin level commands
+https://help.directadmin.com/item.php?id=349
+
+##optione litespeed full
+--with-mcrypt  --with-mhash  --with-zlib  --with-gettext  --enable-exif  --enable-zip  --with-bz2  --enable-soap  --enable-sockets  --enable-sysvmsg  --enable-sysvsem  --enable-sysvshm  --enable-shmop  --with-pear  --enable-mbstring  --with-openssl  --with-mysql=mysqlnd  --with-libdir=lib64  --with-mysqli=mysqlnd  --with-mysql-sock  --with-curl  --with-gd  --with-xmlrpc  --enable-bcmath  --enable-calendar  --enable-ftp  --enable-gd-native-ttf  --with-freetype-dir=lib64  --with-jpeg-dir=lib64  --with-png-dir=lib64  --with-xpm-dir=lib64  --enable-pdo  --with-pdo-sqlite  --with-pdo-mysql=mysqlnd  --enable-inline-optimization  --with-imap  --with-imap-ssl  --with-kerberos  --enable-posix  --enable-xml  --with-libexpat-dir=/usr  --with-config-file-scan-dir=/openlitespeed/php.d  --with-litespeed
+
+yum install bzip2-devel curl-devel libXpm-devel libc-client-devel 
+yum install curl-devel
+yum install libXpm-devel
+yum install libc-client-devel
+1) install icu & libs:
+
+yum -y install icu libicu libicu-devel
+
+2) php-devel package and phpize:
+
+yum -y install php-devel phpize
+
+3) and, of course gcc:
+
+yum -y install gcc gcc-cpp gcc-c++
+
+
+
+
+
+
+ netstat -ntu | awk '{print $5}' | cut -d: -f1 | sort | uniq -c | sort -n
+netstat -anp |grep 'tcp\|udp' | awk '{print $5}' | cut -d: -f1 | sort | uniq -c | sort -n
+cat /proc/loadavg | sed 's/\./ /' | awk '{print $1}'
+
+netstat -ntu | awk ' $5 ~ /^(::ffff:|[0-9|])/ { gsub("::ffff:","",$5); print $5}' | cut -d: -f1 | sort | uniq -c | sort -nr
+
+# Realtime
+watch "netstat -an | grep ':80' | awk '{print \$5}' | sed s/'::ffff:'// | cut -d\":\" -f1 | sort | uniq -c"
+
+##test toc do ghi o cung
+dd if=/dev/zero of=test002 bs=8k count=250000 conv=fdatasync
+
+
+
+===== nang cap php verson litespeed === 
+reset pass admin litespeed:
+cd /usr/local/lsws/admin/misc
+./admpass.sh
+
+Không đăng nhập được webadmin litespeed:
+vi /usr/local/lsws/conf/httpd_config.xml
+đổi lại user apache thành lsadm
+ở 2 dòng:
+<user>
+<group>
+Mở port 7080, dùng pass admin reset build lại php
+tao file phpinfo ( cd /var/www/html/ )
+vào info.php copy day du muc Config command tu "build den het 
+Sau khi vào cấu hình xong thì trả lại user apache mới chạy được web
+
+====== build litespeed ====
+#Command
+    #Tự động build vhost phù hợp với DA
+    #Tự động check restart LiteSpeed. Enable\Disable\Remove\Update DPlswsDA
+    #Được thêm vào cron mặc định chạy 1p/1lần
+    /usr/local/directadmin/scripts/lsws/script-dplswsda check
+    
+    #Chuyển đổi giữa LiteSpeed và Apache.
+    /usr/local/directadmin/scripts/lsws/script-dplswsda switch (apache|litespeed)
+    
+    #Nếu quá trình build vhost không chạy có thể dùng để chạy lại.
+    /usr/local/directadmin/scripts/lsws/script-dplswsda vhost
+    
+    #Remove toàn bộ DPlswsDA
+    /usr/local/directadmin/scripts/lsws/script-dplswsda remove
+ #Để login được vào litespeed URL http://IP:7080 cần set quyền 777 cho 2 folder tmp (lưu session)
+
+        chmod 1777 /usr/local/lsws/tmp
+        chmod 1777 /usr/local/lsws/admin/tmp
+        chmod 755 /usr/local/lsws/conf /usr/local/lsws/admin/conf
+
+    #Để chỉnh sửa vào cấu hình được trên litespeed URL http://IP:7080 thì sửa trong file httpd_config.xml
+         <user>apache</user>
+          <group>apache</group>
+
+        thành 
+        <user>lsadm</user>
+          <group>lsadm</group>
+
+      Restart litespeed (/etc/init.d/litespeed restart)
+ 
+
+====== tạo subdomain trên directadmin ======
+Tạo host với subdomain độc lập với domain chính.
+vd: test.abc.com và abc.com.
+
+Mở file:
+/usr/local/directadmin/conf/directadmin.conf
+thêm tham số:
+check_subdomain_owner=0
+
+
+==== check tên miền trên vps ==== 
+cat /etc/virtual/domain
+
+
+===== load balacing vỡ giao diện DA ==== 
+/usr/local/directadmin/conf/directadmin.conf
+them vao
+disable_ip_check=1
+
+
+=== SSL litespped =====
+ /usr/local/lsws/conf/templates/
+
+ 
+ ==== 
+ vi /usr/local/directadmin/data/users/admin/httpd.conf

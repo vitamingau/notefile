@@ -1,0 +1,289 @@
+========= Enable function 
+vi /etc/cl.selector/php.conf 
+
+========= Wordpress === contact form 7 
+https://support.inet.vn/675206-H%C6%B0%E1%BB%9Bng-d%E1%BA%ABn-c%E1%BA%A5u-h%C3%ACnh-Contact-Form-7-tr%C3%AAn-Wordpress
+
+========= Phân quyền ====== (public html : 750 , folder 755 , file 644)
+ find public_html -type d -exec chmod 755 {} \;  (set quyen tat cac cac folder la 701 trong public_html)
+find public_html -type f -exec chmod 644 {} \; (set quyen tat cac cac file la 404  trong public_html)
+
+chown : chown dndsa671:dndsa671 domains -R (chown name:name file -R)
+
+======== tìm file config ==== 
+ find public_html/ -name "*".php -type f -print0 | xargs -0 grep localhost
+
+======= chang php verson ==== 
+selectorctl --set-user-current=5.4 --user=xxx
+
+======= Check virus ==== (thoát :q!)
+ base64:
+find public_html/ -type f -name "*"."*" -print0 | xargs -0 grep "base64_decode" > base64.txt &
+shell:
+find public_html/ -type f -name "*"."*" -print0 | xargs -0 grep "x47" | grep "x4c" > shell.txt &
+
+clamscan -r /home/*/public_html | grep FOUND >> /home/*/clamscan.txt &
+
+Cpanel grep "POST /" /usr/local/apache/domlogs/nhahangdimai.com
+
+grep "POST /" /home/titad231/access-logs/dochinh.titadv.com
+
+DA  grep "POST /" /var/log/httpd/domains/xacthucso.vn.log
+
+mở lại site bị shell: quét shell ./spam_scan.sh user (clamscan -ri public_html/)-> Done cd user -> vi spam_list -> còn file shell xóa lun :q -> rmdir htaccess(khóa site bằng dir htaccess) https://sitecheck.sucuri.net/results/domain
+find public_html/ -type f -name "*"."*" -print0 | xargs -0 grep "x47" | grep "x4c" > spam.txt
+
+lsof -i | grep smtp
+
+====== check IP ==== 
+csf -g  ip: tim
+ -r : restart firewall
+ -x : disable
+ -e :enable
+ -dr : bỏ chặn
+ -a : whitelist ip
+ -ar : gỡ whitelist
+ -d : deney
+ -t : tạm
+ -tr : gỡ chặn tạm
+
+====== giải nén file tar.gz + nén ===== 
+tar -xvf 
+tar -czvf tenfilenen duongdan
+tar -zxvf file.tar.gz giải nén
+
+====== disable function ====== 
+/etc/cl.selector/php.conf 
+
+Directive = max_input_vars
+Default   = 1000
+Type      = list
+Range     = 1000,3000,5000
+Commnet   = max_input_vars
+
+
+===== restore ==== 
+ /scripts/pkgacct ten_user          lệnh backup
+/scripts/restorepkg yensaoon.tar   lệnh restore
+
+tar -cvf tenfile.tar tenfile     lệnh nén file để restore
+(backup host hiện tại -- move bản restore wa backuplocal -> nén -> move home -> (terminate host) ->restore)
+
+((
+Ví dụ move host abc.com có user là abc ở server 89.59
+B1. SSH vào server, cd đến thư mục public_html của hosting đó
+chạy lệnh : Chown -R abc:abc *
+B2. Vào Cpanel server đích > transfer tool
+move host abc.com từ 89.59 qua
+B3. Move xong kiểm tra trên file manger xem có thư mục nào đang có chmod là 777
+thì chmod lại 755
+(Nếu có nhiều thư mục con thì ssh vào thực hiện lệnh Chmod -R 755 thư_mục . Chú ý phải đứng đúng vị trí để tránh Chmod nhầm )
+B4. Test thử và cấu hình domain 
+move linux-> linux bang tay
+Server nguồn : cd /home
+/scripts/pkgacct username
+scp cpmove-username.tar.gz root@ip_server_đích:/home
+password: root của server đích
+Server đích : cd /home
+/scripts/restorepkg username
+)))
+
+ -------- backup DB -----
+mysql -u user -p tendb < file.sql         import database 
+
+mysqldump -u user -p tendb > tenfilebackup.sql         export database 
+(mc copy ban backup database zo host -> cd zo host chạy lệnh vào thư mục html ) 
+
+--89.26---
+mysql -u username -p database_name -h 192.168.89.6 < file.sql
+
+===== readonly===== 
+chattr -i error_log     bỏ read only cho errorlog
+chattr +i error_log     set read only cho errorlog 
+lsattr                  xem file nào có readonly
+find -name "*.php" -exec chattr -i {} \;   
+find -name "*.html" -exec chattr -i {} \;
+chattr -R -i public_html/  cho thư mục
+
+==== restart IP ===== 
+cd /scripts/ (mc -> restartsrv_	ipaliases)
+
+
+===== Lỗi 406 ====== 
+modesecurity tools check coi có -> ConfigServer ModSecurity Control -> add white list
+
+
+
+=== google cảnh báo nội dung bị tấn công ====== 
+
+Chúng tôi có phản hồi Quý khách chỉ xóa các shell malware chỉ là tạm thời vì hacker tiếp tục lợi dụng đưa malware, virus... Hoặc có thể thay đổi nội dung website. Để khắc phục triệt để vấn đề này Quý khách vui lòng liên hệ với đơn vị làm web để kiểm tra xem có dính lổ hổng bảo mật không và rà soát và tăng cường bảo mật của website. 
+
+Quý khách có thể check  scan mã độc online qua web:
+https://sitecheck.sucuri.net/results/sieuthinem.com
+
+1. Quý khách vào công cụ Google Webmaster Tools add website Quý khách vào để quản lý. Quy trình add và xác thực website Quý khách nên làm theo hướng dẫn của google. hiện google đã có ngôn ngữ tiếng việt cho giao diện này.
+2. Trong công cụ Webmaster Tools, Quý khách chọn vào website của mình, sau đó vào mục "Tình Trạng" -> "phần mềm độc hại" -> Click vào nút "yêu cầu đánh giá" để gửi request tới google
+
+Hướng dẫn trực tiếp của google Quý khách có thể xem tại : https://support.google.com/webmasters/bin/answer.py?hl=vi&answer=163634
+On the Webmaster Tools Home page, select the site you want.
+Click Health, and then click Malware.
+Click Request a review.
+Đăng nhập vào webmasters tools theo link : https://www.google.com/webmasters/tools
+
+
+======= Sử dụng load balancing ===== 
+Vào host -> Tweak Settings -> Cookie IP validation 
+
+
+
+====== check log mail host ======= 
+grep tenmien(hoặc user) /var/log/exim_mainlog (Ex:  grep ngocdiemkt@duocdainam.com /var/log/exim_mainlog)
+
+
+===== Kiểm tra dung lượng ====== 
+du -sh * | sort -rn
+
+====  chinh sua file php.ini === 
+
+/etc/cl.selector/php.conf 
+
+ php --ini
+ vi /usr/local/lib/php.ini
+ :i (insert)
+ :x (execute)
+
+	
+====== xem file log =-===== 
+tail -n 200 tenfile
+
+
+
+==== Restart dịch vụ ====== 
+service httpd restart
+/etc/init.d/httpd restart
+
+# service httpd restart
+# service nginx restart
+# service varnish restart
+
+===== Free SSL ===== 
+ssl host linux ->Manage AutoSSL->providers -enable(chọn cPanel (powered by Comodo)  – Current Setting)
+->manager user ->chọn user ->check Enable AutoSSL ->check userhost
+B2: login vào host khách ->SSL/TLS 
+->Install and Manage SSL for your site (HTTPS) ->Manage SSL sites->chọn domain ->autofill by domain ->install cer
+
+===== CHECK SPAM ====== 
+lsof -i | grep smtp
+
+===== restart tomcat ====== 
+Để restart tomcat, anh em ssh vô server mở file /usr/share/apache-tomcat-7.0.63/conf/tomcat-users.xml lấy user/pass để truy cập vào http://112.213.89.48/host-manager/html để restart tomcat cho 1 host, chọn stop và start lại là được. Anh em hạn chế chạy lệnh service tomcat restart vì có thể 1 số host lỗi dẫn đến tomcat không start được mò lại mất thời gian.
+
+Tomcat không start được nguyên nhân phổ biến là trên Host tạo subdomain nhưng vì lý do nào đó khách hàng hoặc kỹ thuật move luôn source bao gồm cả tên folder subdomain ra khỏi thư mục public_html dẫn đến lỗi, tomcat cũng không start được. Fix lỗi bằng cách kiểm tra subdomain, tạo lại folder tên subdomain tương ứng rồi restart lại tomcat.
+
+Cung cấp log cho khách hàng khi khách yêu cầu, anh em  ssh vào server chạy lệnh sau tail -f /user/share/apachetomcat..../log/catalina.out >> log.txt sau đó vào  http://112.213.89.48/host-manager/htm chọn stop và start lại, sau khi start xong thì anh em vào copy file log.txt vào host cho khách.
+
+Để xem request nhiều hay không anh em vào theo link http://112.213.89.48/manager/status user/pass vẫn như vào host-manager để lấy.
+username="admin" password="dTAH5adas1"
+
+deploy:
+copy backup 1 bản -> change quyền -> giải nén jar -xvf ROOT.war -> restart site.
+
+=== facebook suspend :=====
+https://developers.facebook.com/tools/debug/og/object/
+
+===== maldet =====
+ /usr/local/maldetect
+
+======= php.ini ===== 
+php -i | grep \"php.ini\"
+
+===== check log xóa file ===== 
+Check the following log files: 
+
+/var/log/messages - to check if the files were deleted using FTP
+/usr/local/cpanel/logs/error_log - To check if the files were deleted using file manager
+history command- If the files were deleted using shell access
+
+====== check license cloud ==== 
+Trên server cloudlinux nếu truy cập vào LVE Manager báo lỗi license 
+
+No Valid CloudLinux License Found
+
+1, kiểm tra license Cloudlinux có còn ko 
+
+http://verify.cpanel.net/
+hoặc 
+https://cln.cloudlinux.com/clweb/public/license-lookup.xhtml
+
+2. Nếu còn license thì dùng lệnh dưới để active lại
+
+/usr/sbin/clnreg_ks --force
+
+nếu vân ko đc thì dùng lệnh
+/usr/bin/cldetect --update-license
+
+nếu vẫn không được thì báo Admin
+
+===== tao link thu muc ==== 
+ln -s /home/mavac639/public_html/storage/app/public/ /home/mavac639/public_html/public/storage
+
+
+
+======= htaccess optimize ===== 
+
+Nếu lỡ enable thì vào WHM Cpanel  mục Home »Service Configuration »Apache Configuration »Global Configuration   => Optimize .htaccess (AllowOverride) [?]   đổi lại "search / and below (Full Path)"  Sau đó Save + restart apache.
+
+
+===== backup reseller ======== 
+ [root@server ~]#cat /etc/trueuserowners|grep testreseller|cut -d: -f1 > reseller_list.txt
+
+===== missing ip + user cpanel ==== 
+cd /var/cpanel/users/
+vi user lên
+
+===== truy cap 1 host bao loi ==== 
+A fatal error or timeout occurred while processing this directive.
+->
+/usr/local/cpanel/scripts/modify_accounts --theme=paper_lantern --users=noith415 --style=basic
+
+
+===== spam mail host ====
+/etc/outgoing_mail_suspended_users 
+
+
+==== cap nhat time server ==== 
+ntpdate 0.asia.pool.ntp.org
+
+==== update verson php cpanel ==== 
+yum groupinstall alt-php
+
+
+===== restart tomcat ==== 
+cd /usr/share/apachetomcat/shutdown.sh -> start.sh 
+
+===== thong ke dung luong error log =====
+du -sh /home/*/public_html/error_log |sort -n|grep M > kqM.txt
+ echo -n "" >
+
+ 
+==== check spam ====
+ps -eo'user pid pcpu pmem time etime stime comm' --sort=utime,pcpu |grep -Ev 'mysql|dbus|root|dovecot|exim|polkitd|redis|dovenull|rpc|nrpe|nscd|imap|named|hald|cpaneld|java|litespeed|pure-ftpd' 
+
+==== 89124 ====
+Mặc định trên 89.124 disable tính năng rename domain, adddomain và delete áp dụng cho all level user. 
+
+- Để enable lại tính năng rename domain:
+
+. SSH vào server, mở file  file /usr/local/directadmin/conf/directadmin.conf
+
+. tìm đến dòng  never_commands=CMD_CHANGE_DOMAIN  bỏ dòng này đi.
+
+. lưu lại sau đó restart lại directadmin rồi vào quản lý directadmin thử lại là được. 
+
+- Để enable lại tính năng add và delete domain:
+
+. SSH vào server, mở file  file /usr/local/directadmin/conf/directadmin.conf
+
+. tìm đến dòng  users_can_add_remove_domains=2 sửa lại thành users_can_add_remove_domains=0   
+
+. lưu lại sau đó restart lại directadmin rồi vào quản lý directadmin thử lại là được.

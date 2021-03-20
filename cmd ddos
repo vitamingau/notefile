@@ -1,0 +1,133 @@
+netstat -nltp | grep ":80"
+Mã:
+netstat -n | grep :80 |wc -l
+
+Kiểm tra số lượng connection đang ở trạng thái SYN_RECV:
+
+Mã:
+netstat -n | grep :80 | grep SYN_RECV|wc -l
+
+Hiển thị tất cả các IP đang kết nối và số lượng kết nối từ mỗi IP:
+
+Mã:
+netstat -an|grep :80 |awk '{print $5}'|cut -d":" -f1|sort|uniq -c|sort -rn
+
+Nếu muốn kiểm tra IP nào mở nhiều SYN thì thêm vào:
+
+Mã:
+netstat -an|grep :80|grep SYN |awk '{print $5}'|cut -d":" -f1|sort|uniq -c|sort -rn
+
+- Đối với server có nhiều IP, để kiểm tra IP nào đang bị tấn công:
+
+Mã:
+netstat -plan | grep :80 | awk '{print $4}'| cut -d: -f1 |sort |uniq -c
+
+- Hiển thị tất cả các IP đang kết nối và số lượng kết nối từ mỗi IP:
+
+Mã:
+netstat -an | grep ':80' | awk '{print $5}' | sed s/'::ffff:'// | cut -d":" -f1 | sort | uniq -c
+netstat -ntu | awk 'NR>=3 {print $5}' | cut -d: -f1 | sort | uniq -c | sort -rn
+
+- Hiển thị số lượng kết nối mỗi loại
+
+Mã:
+netstat -an | grep :80 | awk '{print $6}' | sort | uniq -c
+
+61 ESTABLISHED
+13 FIN_WAIT1
+17 FIN_WAIT2
+1 LISTEN
+25 SYN_RECV
+298 TIME_WAIT
+
+- Hiển thị tất cả các IP đang kết nối và số lượng kết nối từ mỗi IP
+
+Mã:
+ ******  watch "netstat -an | grep ':80' | awk '{print \$5}' | sed s/'::ffff:'// | cut -d\":\" -f1 | sort | uniq -c"
+  netstat -an | grep ESTAB | wc -l
+
+
+Mã:
+watch "netstat -an | grep :80 | awk '{print \$6}' | sort | uniq -c"
+
+- check log slow query db :
+
+them dong` sau vao /etc/my.cnf
+log-slow-queries=/var/log/mysql/log-slow-queries.log
+
+----- clear cache ---- 
+echo 3 > /proc/sys/vm/drop_caches
+
+Optimize MySQL:
+wget http://mysqltuner.pl/ -O mysqltuner.pl
+perl mysqltuner.pl
+
+---- check log mysql server ---- 
+tail -100 /var/lib/mysql/gallery.dotvndns.vn.err
+
+
+---- repair db ---- 
+lay pass root mysql : 
+cat /root/.my.cn
+
+repair db:
+mysqlcheck -u root -p --auto-repair --check --all-databases
+
+
+===== check ram phy ==== 
+ps aux  | awk '{print $6/1024 " MB\t\t" $11}'  | sort -n
+
+===== check IPD & CPU ====
+
+ps -eo pid,ppid,cmd,%mem,%cpu --sort=-%mem | head
+
+
+==== check inode ====
+for i in /*;do echo "Number of inodes in $i is $(find $i | wc -l)";done
+
+
+==== check spam ==== 
+lsof -PniTCP:80 -r 1 |grep 80|grep SYN
+
+
+==== check thong so
+https://hocvps.com/su-dung-top-theo-doi-tinh-trang-server/
+
+Dòng thứ 3 hiển thị % sử dụng CPU, bao gồm % CPU từ user (us), system (sy), low-priority processes (nice time, hoặc ni), idle time (id), wait for I/O processes (wa), time handling hardware interruptions (hi), time handling software interruptions (si), stolen time from the virtual machine (st).
+
+S: Tình trạng process, có thể là: running (R), sleeping and unable to be interrupted (D), sleeping and able to be interrupted (S), traced/stopped (T), or zombie (Z).
+
+    return or space: Cập nhật tình trạng hệ thống ngay lập tức.
+    d or s: Thay đổi thời gian cập nhật.
+    U or u: Filter processes theo user.
+    1: Hiển thị load của từng CPU core hoặc toàn bộ.
+    <, >: Sort column.
+    k: Kill process theo PID.
+    h: Mở trợ giúp.
+    q: Quit.
+  
+  
+=====================================
+https://www.tecmint.com/understand-linux-load-avera
+
+
+==== check mysql === 
+echo "show processlist;" | mysql | awk '{print $4}' | sort | uniq -c
+:
+/usr/lib64/nagios/plugins/check_mysql
+
+==== start mysql recovery 4 ====
+/etc/init.d/mysqld start --innodb_force_recovery=4
+
+
+===== check spam ====
+lsof -PniTCP:80 -r 3|grep -Ev 'nobody|root|nginx'
+ps aux | awk '{print $1 " ---- " $11}' | sort | grep -Ev 'root|nobody|dovecot|mysqld|nrpe|exim|cpanel|hald|COMMAND|dbus|java|named|webmaild'|sort
+
+==== để check log slow query ===
+long_query_time = 4
+slow_query_log = 1
+slow_query_log_file = "/var/lib/mysql/slow.log"
+ cho zô /etc/my.cnf
+ 
+ thằng nào query nhiều và chậm là nó ghi zô

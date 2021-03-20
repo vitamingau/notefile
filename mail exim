@@ -1,0 +1,195 @@
+==== check log mail exim ====
+ssh -> cd /var/log ->  grep ...thôngtin.... filelog
+
+==== check dung lượng ==== 
+cd home/user du -shc *
+
+===== lỗi IMAP =====
+ http://linuxpitstop.com/webmail-error-possible-mailbox-corruption/
+Unexpected condition from IMAP server, closed or corrupt connection to IMAP. Possible mailbox corruption. 
+
+cd /home/user/mail/domain
+
+Eg: cd /home/a406/mail/atwo.com.vn
+
+và chay lệnh rename file dovecot.index thành dovecot.index.backup
+
+find . -type f -name 'dovecot.index' -execdir mv {} {}_backup ';'
+
+ Một số trường hợp user không có dovecot.index mà có dovecot.index.cache nên sửa lại lệnh như bên dưới 
+
+find . -type f -name 'dovecot.index.cache' -execdir mv {} {}_backup ';'
+
+
+======== cấu hình rule ====== 
+cau hinh quan li mail linux -> vao xem huong dan trong kien thua pa -> cau hinh xong vao cpanel -> Service Configuration »Exim Configuration Manager vao muc filter va luu lai 
+Edit file /usr/local/cpanel/etc/exim/sysfilter/options/antispam bằng editor nano, pico, vim.... (tuỳ mọi người ). (nếu file antispam chưa có thì tạo mới, áp dụng cho server mới chẳng hạn
+	 Home »Service Configuration »Exim Configuration Manager   => Basic => Fiter  => sẽ thấy Custom Filter: rule_bcc  => ON
+	 để kích hoạt rule
+	
+	##### Quan ly cac email ben duoi vao email nhatcuongvn.com 1111740#####
+if ("$h_to:, $h_cc:, $h_from:, $h_bcc:" contain "minhlee@nhatcuongvn.com")
+   or ("$h_to:, $h_cc:, $h_from:, $h_bcc:" contain "xuanhai@nhatcuongvn.com")
+   or ("$h_to:, $h_cc:, $h_from:, $h_bcc:" contain "lenna@nhatcuongvn.com")
+or ("$h_to:, $h_cc:, $h_from:, $h_bcc:" contain "toannguyen@nhatcuongvn.com")
+or ("$h_to:, $h_cc:, $h_from:, $h_bcc:" contain "quangcanh@nhatcuongvn.com")
+
+then
+   unseen deliver "minhlee@nhatcuongvn.com"
+   unseen deliver "lenna@nhatcuongvn.com"
+   unseen deliver "info@nhatcuongvn.com"
+endif
+check => Exim Configuration Manager => Basic => Fiter => save 
+vi /etc/cpanel_exim_system_filter
+
+
+
+DirectAdmin: 
+cấu hình nội bộ
+/etc/system_filter.exim
+################gui noi bo 26564YQM16
+if ("$h_from:" contains "kho-plywood@sakicompany.com")
+and foranyaddress $h_to:,$h_cc:,$h_bcc: ( $thisaddress does not contains "@sakicompany.com" )
+then
+fail "sakicompany.com not allow send mail"
+save "/dev/null" 660
+endif
+################
+
+===== load balancing kerio ===== 
+
+setting -> advanced option -> kerio connect client -> bỏ check force logout
+
+===== whitelist ====== 
+Home >> Service Configuration >> Exim Configuration Editor >> RBLs
+vi /etc/exim.conf
+vi /etc/skiprbldomains 
+vim /etc/skipsmtpcheckhosts
+
+
+====== remove queue ==== 
+exim -bpr | grep frozen | awk {'print $3'} | xargs exim -Mrm
+
+
+======= log ip ======
+
+cd /etc/csf/csf.deny
+
+======= ip của 1 email ===== 
+vi /etc/mailhelo => 
+vi /etc/mailips =>
+
+
+======== Export list email of domain in cPanel========
+
+ 
+
+SSH and cd to /home/user/etc/domain
+
+Eg:
+
+cd /home3/cammsys/etc/cammsys.vn
+
+cut -d':' -f1 passwd|sort -n|awk '{print $1 "@cammsys.vn"}' | uniq
+
+or print only user (not contain @domain)
+
+cut -d':' -f1 passwd|sort -n
+
+===== block user ===== 
+ /var/spool/exim/blocked_authenticated_users
+
+ 
+ 
+ ====== reg private mail server ===== 
+ change pass root : passwd root
+ change pass admin : vi /opt/kerio/mailserver/users.cfg -> password : NUL:
+ change hostname /etc/hosts     +   /etc/hostname
+
+==== DKIM ===== 
+ - ssh vào server: 
+cd /var/cpanel/domain_keys/public sau đó đổi tên file tương ứng với tên miền đó vd: abc.com thành abc.com_bak
+cd /var/cpanel/domain_keys/private sau đó đổi tên file tương ứng với tên miền đó vd: abc.com thành abc.com_bak
+
+chạy tiếp 2 lệnh sau để tạo lại DKIM cho user
+/usr/local/cpanel/bin/dkim_keys_uninstall tenuser
+/usr/local/cpanel/bin/dkim_keys_install tenuser
+
+
+====== mail failer ==== 
+/etc/email_send_limits // Domain reddragonlogistics.com.vn has exceeded the max defers and failures per hour 
+/var/cpanel/email_send_limits/max_deferfail_example.com , xoa di 
+
+
+==== maixbox full quota ====
+# Email - Not enough disk quota
+grep -E "> Not enough disk quota|> Mailbox is full" /var/log/exim_mainlog | cut -d"<" -f2 | cut -d">" -f1 | sort | uniq
+
+
+===== backup =====
+mount /dev/o backup /backup
+
+/usr/local/cpanel/bin/backup --force (kieu moi )
+ /scripts/cpbackup –force (kieu cu(legacy))
+
+ 
+ === xoa mail queue ====
+ Xóa tất cả các mail đang ở tình trạng frozen
+exiqgrep -z -i | xargs exim -Mrm
+
+
+====== file forward kerio ==== 
+/opt/kerio/mailserver/users.cfg
+
+
+
+==== change pass kerio =====
+
+vi /opt/kerio/mailserver/users.cfg 
+Open the users.cfg file in text editor.
+
+Search for the name of the admin account in the list: <variable name="Name">.
+
+For example: <variable name="Name">jsmith</variable>
+
+Under the administrator's name, search for the line with <variable name="Password">.
+
+For example: <variable name="Password">D3S:1234ab56c7de89</variable>
+
+Change the "password variable to NUL:.
+
+For example: <variable name="Password">NUL:</variable>
+
+Save the file.
+
+
+==== mailling list exim ==== 
+/etc/virtual/kepton.com.vn/majordomo/lists
+
+
+==== R=dkim_lookuphost T=dkim_remote_smtp: all hosts for 'imc-kabel.com.vn' have been failing for a long time (and retry time not reached) ===
+cd /var/spool/exim/db - > rename retry -> retry.bak
+
+===== SMTP status codes=====
+
+2.0.0 – Email has been delivered to the Inbox.
+2.1.5 – Email has been delivered and moved to another folder due to a filtering rule.
+4.1.1 – Email address does not exist.
+4.4.1 – No answer from host or connection lost.
+5.1.7 – Senders email address was incorrect or has bad syntax.
+SMTP Reply Codes
+
+220 – Server ready.
+250 – Request mail action ok.
+450 – Requested mail action not taken, mailbox unavailable.
+451 – Request action aborted.
+500 – Syntax error, command not recognized.
+550 – Requested mail action not taken, mailbox unavailable.
+554 – Transaction failed.
+
+=== check dung luong file attachement ====
+exim -bP | grep message_size_limit
+
+
+==== xoa mail theo ngay ===== 
+find ./ -mtime +83(ngay) -type f -name *.eml -delete

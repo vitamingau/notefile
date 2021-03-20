@@ -1,0 +1,442 @@
+I. Kiến thức chung
+1. Giới thiệu dịch vụ hosting window, mô hình hiện tại
+Server window 2008 R2, sử dụng plesk control panel 12, IIS7.5 , support multi verion php, ASP.NET version cao nhất 4.6 , MySQL 5.1 , MSSQL 2014  (version 12).
+Sử dụng Database MSSQL tập trung. 
+
+2. Host window hỗ trợ các nền tảng website nào?
+Website html tĩnh
+Website ASP Classic
+Website PHP
+Website ASP.NET
+Framework  2.0->4.6 
+Nền tảng MVC 1->5 
+Entity Framework (tất cả)
+DotnetNuke (tất cả)
+
+
+II. Các lỗi cơ bản thường gặp và cách kiểm tra, xử lý.
+
+1.  Lỗi chung chung của code asp.net
+
+Details: To enable the details of this specific error message to be viewable on remote machines, please create a <customErrors> tag within a "web.config" configuration file located in the root directory of the current web application. This <customErrors> tag should then have its "mode" attribute set to "Off".
+
+
+=> Edit file web.config của site set mục <customErrors mode=”Off” /> và truy cập lại sẽ thấy show lỗi cụ thể. 
+Hoặc có thể remote vào server truy cập trực tiếp để thấy lỗi nếu site không được set <customErrors> trong web.config
+
+500 - Internal server error.
+
+=> lỗi này là do cấu hình trên server IIS (quyền, đường dẫn, v.v...) phải vào server truy cập để show chi tiết lôi. 
+
+
+
+2. Lỗi website liên quan tới phần quyền thư mục chứa source code.
+*** Lỗi thiếu quyền anonymous authenticaion, có thể do sai user/pass khai báo trên IIS. hoặc thư mục source thiếu quyền cho user anonymous
+
+Lỗi sẽ có 2 dang:
+401 - Unauthorized: Access is denied due to invalid credentials.
+hoặc popup cửa sổ thông báo nhập user/pass 
+
+
+
+
+
+
+
+
+
+
+
+Trường hợp cửa sổ popup yêu cầu nhập user/pass còn có nguyên nhân do đang được thiết lập chế độ bảo vệ password thư mục.
+
+=> Kiểm tra trên IIS->Site->Authentication → Anonymous Authentication set lại user/pass cho đúng, và kiểm tra thư mục chứa source đã được add user khai báo trong mục “Anonymous Authentication” tối thiểu quyền read.
+
+*** Lỗi thiếu quyên indentity của application pool. Do chưa set quyên user trong identity của pool có quyền read trên thư mục chứa source.
+Lỗi sẽ xuất hiện là 500 internal server error , vào server kiểm tra sẽ thây lỗi liên quan tới quyền đọc file vd như sau
+Config Error Cannot read configuration file due to insufficient permissions  
+
+=> kiểm tra pool site đang chạy có indentity là user nào thì add thêm quyền user đó cho thư mục chứa 
+
+
+
+
+
+
+
+
+
+
+
+
+3. Chưa tạo virtual directory cho thư mục ứng dùng asp.net
+
+Parser Error Message: It is an error to use a section registered as allowDefinition='MachineToApplication' beyond application level.  This error can be caused by a virtual directory not being configured as an application in IIS.
+
+=> Website chưa nhiều ứng dụng web khác trong folder con thì cần add virtual directory cho ứng dụng website con để có thẻ run được.
+Trên IIS → vòa site → chọn thư mục, click phải → Convert to Application 
+
+
+
+4. Không đúng version Framework
+Parser Error Message: Unrecognized attribute 'xxxxx'. Note that attribute names are case-sensitive.
+
+vd :
+Parser Error Message: Unrecognized attribute 'targetFramework'. Note that attribute names are case-sensitive.
+
+Parser Error Message: Unrecognized attribute 'requestValidationMode'. Note that attribute names are case-sensitive.
+
+
+
+
+5. Không chạy được trang mặc định của website.
+- 403 – Forbidden / 404 Not Found
+- Show ra toàn bộ source code.
+
+=> Vào IIS → site → Default Document, kiểm tra các file load mặc định được khai báo. 
+Nếu Khách yêu cầu các trang mặc định riêng thì add thêm vào (support 1304754)
+
+or : vào web.config xem co1show lỗi 401 ko ? lỗi show ra có thư mục bên  ngoài ko ? Nếu ko có thư mực bên ngoài thì xóa các thông báo lỗi đó  → vào  Handler Mapping → REvert lại 
+
+vd : demo4.vanpham.name.vn
+
+6. Không chạy được các code lập trình (ASP, PHP, ASP.NET)
+Thường báo lỗi : 404 - File or directory not found . Truy cập trực tiếp vào link vd /index.asp vẫn không chạy
+
+=> Kiểm trên plesk → mục web hosting setting  check enable ngôn ngữ web cần hỗ trợ.
+Trên IIS → site → Handler Mapping kiểm tra không có phần định dạng đuôi mở rộng → site chưa được cấu hình hỗ trợ chạy ngôn ngữ web đó.  (support 1304754)
+
+
+
+
+7. Lỗi web 503  service unavailable
+
+
+
+
+
+
+Lỗi này có 2 nguyên nhân chính:
+- vượt quá giới hạn kết nối cho phép (được set trên IIS -> site->mục Limit)
+- Application pool chứa site đang bị stop
+
+
+8. Lỗi upload file/hình lên website
+	Could not find a part of the path 'xxxxxx’..
+	=> không có tồn tại đường dẫn upload file.
+
+	Access to the path 'xxxxxx' is denied.
+	=> không có quyền ghi trên thư mục chứa file upload (support 1304719)
+Cần set quyền write (ghi) cho thư mục chứa file upload, set quyền ghi cho user theo indentity của pool mà site đang chạy.
+Lưu ý không set quyền everyone và không set quyền write cho toàn bộ thư mục gốc chứa source code (httpdocs)
+
+
+
+
+
+9. Lỗi kết nối database
+A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: Named Pipes Provider, error: 40 - Could not open a connection to SQL Server)
+=> Không kết nối được tới server SQL, kiểm tra khai báo mục server database trong chuỗi connectionString trong web.config
+
+Login failed for user '’xxx’
+=> sai thông tin user/pass kết nối database.
+
+Cannot open database ‘xxx’ requested by the login. The login failed.
+Login failed for user 'xxxx'.
+=> userdb không có quyền truy cập vào database, kiểm tra userdb  set role db_owner trên database.
+
+The SELECT permission was denied on the object 'xxx', database 'xxx', schema 'dbo'.
+=> userdb đang bi set deny quyền read trên database, kiểm tra bỏ role db_denyreader cho userdb  trên database.
+
+
+
+
+Nên chọn suPHP hay DSO?
+Hiện nay trên một web server Linux thường sử dụng 4 PHP Handler phổ biến là: CGI, FastCGI, suPHP và DSO. Ở bài viết này PETER chỉ đề cập đến suPHP và DSO, đây là 2 handler phổ biến và được sử dụng nhiều nhất trong môi trường shared hosting.
+Trước tiên cần phải tìm hiểu PHP handler là gì?
+Với một trang web chạy PHP, mỗi yêu cầu từ client gửi lên server, server sẽ phải xử lý các mã PHP sau đó trả kết quả về client, quá trình xử lý đó thông qua một đơn vị phụ trách việc biên dịch PHP dựa trên thư viện PHP có sẵn trên server, và đơn vị phụ trách việc xử lý này gọi là PHP handler. Như PETER đã nói ở trên, có 4 PHP Handler phổ biến là: CGI, FastCGI, suPHP và DSO.
+suPHP là gì?
+Có thể hiểu ngắn gọn suPHP là một công cụ cho phép user (và chỉ user đó) có toàn quyền thực thi (bao gồm cả read và write) kịch bản PHP của họ mà không cần quan tâm đến những thiết lập quyền thực thi khác, như CHMOD. Khi sử dụng suPHP, người dùng có thể rút ngắn những khoảng thời gian đáng kể thay vì phải đi change mode (CHMOD) từng file / folder, hay nói cách khác, khi sử dụng suPHP bạn cứ để CHMOD mặc định của file là 644 (0644) và folder là 755 (0755). Hạn chế của suPHP là phải verify owner của file trước khi thực thi, với một webiste chạy PHP với lượng truy cập quá lớn thì việc verify đó sẽ ảnh hưởng đến tốc độ cũng như tài nguyên RAM và CPU trên server. Do đó nhiều người đã chọn giải phải sử dụng DSO hoặc FastCGI thay vì suPHP.
+DSO là gì?
+DSO là PHP handler nhưng lại là module của Apache nên nó chuyển user thực thi PHP sang thành user của Apache trên server và user đó thường là "nobody". Sử dụng DSO là một thế mạnh về hiệu năng xử lý và tốc độ nhưng hãy cẩn thận với vấn đề bảo mật, sử dụng DSO sẽ khiến bạn tốt nhiều thời gian để giới hạn lại quyền thực thư các file PHP thông qua CHMOD vì khi sử DSO, ví dụ với 1 file có CHMOD là 666 thì mọi user trên server đều có quyền đọc và ghi đối với file đó, hoặc một file PHP có owner là user khác cũng có thể chạy trên web của bạn, điều này ngược lại hoàn toàn với suPHP.
+Sau khi nắm được tác dụng cũng như tác hại của suPHP và DSO thì dựa vào nhu cầu hoàn cảnh sử dụng mà bạn tự chọn cho mình một PHP handler phù hợp. Theo kinh nghiệm của PETER thì nếu server chạy shared hosting có nhiều user trên server thì nên chọn suPHP vừa tăng cường bảo mật vừa đỡ support mấy vấn đề liên quan đến CHMOD. Còn nếu web của bạn chạy server riêng thì nên chọn DSO để tăng cường hiệu xuất và không ngại việc "va chạm" quyền thực thi PHP giữa các user trên server do các user đó là của bạn.
+Lưu ý: Dù chọn PHP handler nào thì cũng nên bật Apache suEXEC, ở bài viết khác PETER sẽ nói về Apache suEXEC, và các PHP handlers còn lại.
+
+
+
+********************** TƯ VẤN *****************
+Chúng tôi kiểm tra thấy website của quý khách chạy open source wordpress - 1 dạng mã nguồn mở nếu sử dụng thêm các module - plugin, themes mở rộng thì sẽ có khả năng chiếm nhiều tài nguyên và ảnh hưởng đến tốc độ load web. Hiện tại chúng tôi đã set thêm tài nguyên cho hosting của quý khách. Quý khách vui lòng tối ưu lại source code.
+Nếu quý khách cảm thấy website vẫn chậm hoặc chưa đáp ứng được yêu cầu của quý khách. Quý khách có thể chuyển sang gói host wordpress để website được hỗ trợ tốt nhất và hoạt động tốt nhất. Đối với các site wordpress chúng tôi có các gói host chuyên dụng cho wordpress. Khi đăng ký host chúng tôi cũng tư vấn cho khách hàng gói host wordpress vì wordpress khi hoạt động khá ngốn nhiều tài nguyên Ram và CPU nên chúng tôi tách làm 1 gói riêng.
+Quý khách có thể xem các gói host tại đây : https://www.pavietnam.vn/vn/wordpress-hosting.html
+
+
+*********** Lỗi hàm mail() **********
+Do hàm mail() của PHP khi gởi mail không cần chứng thực SMTP (khi gởi mail không cần khai báo địa chỉ gởi đi và chứng thực mật khẩu SMTP để gởi mail hợp lệ), chỉ cần khai báo địa chỉ gởi đến là có thể gởi mail thành công và chính điều này dẫn đến tình trạng server bị tổ chức chống Spam quốc tế ngăn chặn và không thể gới-nhận mail được nữa vì bị đưa vào danh sách Black List.
+
+Quý khách vui lòng báo với phía làm website sử dụng code gởi mail kèm chứng thực để được hỗ trợ gởi mail.
+
+
+***********Google report domain***********
+
+Quý Khách tham khảo hướng dẫn bên dưới để gửi yêu cầu đến Google nhờ họ hỗ trợ
+
+1: Cài đặt chương trình diệt virus và upgrade lên phiên bản mới nhất, và quét lại toàn bộ máy tính.
+
+2: Kiểm tra các file có name index.* , Default.* trên host và tìm ra code chứa nội dung iframe loại bỏ nếu cảm thấy nghi ngờ. Lên google search các đường link chứa trong iframe đó, để biết thông tin chi tiết và cách xử lý.
+link check website online http://sitecheck.sucuri.net/scanner/
+
+3: Sau khi chắc chắn máy tính không còn nhiễm virus nữa, Quý khách bắt đầu đổi toàn bộ info hosting, email, ftp account… ( hoặc có thể dùng một máy tính khác không có virus để đổi mật khẩu )
+
+Sau khi Quý khách đã thực hiện theo các bước trên thì Quý khách cần thực hiện các bước sau để gửi report cho google:
+
+1. Quý khách vào công cụ Google Webmaster Tools add website Quý khách vào để quản lý. Quy trình add và xác thực website Quý khách nên làm theo hướng dẫn của google. hiện google đã có ngôn ngữ tiếng việt cho giao diện này.
+
+2. Trong công cụ Webmaster Tools, Quý khách chọn vào website của mình, sau đó vào mục "Tình Trạng" -> "phần mềm độc hại" -> Click vào nút "yêu cầu đánh giá" để gửi request tới google
+
+Hướng dẫn trực tiếp của google Quý khách có thể xem tại : https://support.google.com/webmasters/bin/answer.py?hl=vi&answer=163634
+On the Webmaster Tools Home page, select the site you want.
+Click Health, and then click Malware.
+Click Request a review.
+Đăng nhập vào webmasters tools theo link : https://www.google.com/webmasters/tools
+
+Ngoài ra Quý khách có thể xem thêm 1 số hình minh họa từ quá trình kiểm tra tại trang http://www.stopbadware.org
+
+Chú ý: sau 3 ->7 ngày website của bạn sẽ được remove ra khỏi Google cảnh báo.
+
+
+
+
+=============== Add user DB ======  \\192.168.89.17\c$ (MAP USER)
+use ten_db
+exec sp_dropuser ten_user
+exec sp_changedbowner ten_user
+create user ten_user without login
+
+============== KILL task =====  
+
+use master
+SET NOCOUNT ON
+	DECLARE @DBName varchar(50)
+	DECLARE @spidstr varchar(8000)
+	DECLARE @ConnKilled smallint
+	SET @ConnKilled=0
+	SET @spidstr = ''
+
+	Set @DBName = 'Danamuaban'
+	IF db_id(@DBName) < 4
+	BEGIN
+	PRINT 'Connections to system databases cannot be killed'
+	RETURN
+	END
+	SELECT @spidstr=coalesce(@spidstr,',' )+'kill '+convert(varchar, spid)+ '; '
+	FROM master..sysprocesses WHERE dbid=db_id(@DBName)
+
+	IF LEN(@spidstr) > 0
+	BEGIN
+	EXEC(@spidstr)
+	SELECT @ConnKilled = COUNT(1)
+	FROM master..sysprocesses WHERE dbid=db_id(@DBName)
+	END
+
+ restore xong nho map user lai nha
+
+===== quét shell ==== 
+cd ::: -> vào host ->> findstr /s "x47 x4c base64_decode rilvt84" *.php.* > spam.txt
+
+
+====== Shrink Database =======
+		Declare @dbname varchar(200),@sql varchar(200)
+
+		SET @dbname = 'ten_db_can_shrink'
+
+		set @sql ='alter database '+@dbname+' SET RECOVERY SIMPLE'
+
+		exec (@sql)
+
+		DBCC SHRINKDATABASE(@dbname,10)
+
+		set @sql ='alter database '+@dbname+' SET RECOVERY FULL'
+
+		exec (@sql)	
+
+
+======== training 2/2017 ====== 
+1. Cấu hình php.ini riêng trên host window
+chỉ plesk 12 làm được.
+Vào plesk quyền admin → vào host cần set → PHP Settings, tại đây sẽ set được 1 số các thuộc tính cơ bản, các thuộc tính không có sẵn thì set ở mục “Additional directives”. trên host sẽ có file .user.ini lưu 1 số  tham số cấu hình php.
+
+2. Phân biệt lỗi “503 The service is unavailable” với “The service is unavailable”
+503 The service is unavailable : Pool bị chết hoặc vượt quá limit connection trên site.
+The service is unavailable : host bị suspend trên plesk (đối với server plesk 12)
+
+3. Tách pool trên IIS, Mục đích, cách tách pool
+Mục đích : Chia tải pool, không dồn quá nhiều site vào 1 pool khi chiếm nhiều RAM sẽ gây treo các website khác. Hoặc có 1 site nào đó bị bug gây crash pool sẽ ảnh hưởng các site còn lại.
+Tách pool:
+Tạo 1 pool mới, sau đó đó properties 1 site, ở mục basic setting chọn pool cần chuyển site sang. 
+Tạo pool mới nếu set identity user network services thì không cần nhập password, trường hợp sử dụng user khác thì phải nhập password. Ví dụ sử dụng user IWAM_Plesk(default) thì cần nhập password → để biết pass của user này thực hiện export cấu hình pool trên IIS đang có ra
+		%windir%\system32\inetsrv\appcmd list apppool /config /xml > c:\apppools.xml
+		Sau đó mở file c:\apppools.xml để xem pass
+
+Tạo pool riêng : Áp dụng cho trường hợp site dùng nhiều, hoặc site đang nghi ngờ gây ảnh hưởng cần theo dõi. Tạo pool trên plesk vào mục “Dedicated IIS Application Pool for Website” trên host enable lên. 
+Pool được tạo ra với user riêng, cũng sẽ chống được việc hack local.
+
+4. Remote MSSQL
+Mở remote MSSQL trên các server 89.177 và 89.175
+Riêng 89.173 cần add IP WAN (lv2 có quyền add), Khách phải remote vào theo IP 112.213.89.233 
+Cần set ownerdb cho user để khi remote sẽ thấy được database.
+xóa user trong mục Security->user của database
+Chạy lệnh set dbowner: 
+use [ten_database]
+exec sp_changedbowner [ten_user]
+Tạo lại user trong mục Security->user của database với thuộc thính without login
+	
+	==> Cấu lệnh thực hiện cho tất các các việc set dbower trên
+		use [ten_database]
+		exec sp_dropuser [ten_user]
+		exec sp_changedbowner [ten_user]
+		create user [ten_user] without login
+
+5. Report Viewer :
+- Server phải có install runtime version phù hợp
+Microsoft Report Viewer : chạy với mọi quyền. 
+SAP Crystal Report :  Set pool chạy với quyền network services. 
+
+6. URL Rewrting
+Intelligencia.UrlRewriter
+//classic mode
+<system.web>
+<httpModules>
+      <add name="UrlRewriter" type="Intelligencia.UrlRewriter.RewriterHttpModule, Intelligencia.UrlRewriter"/>
+</httpModules>
+</system.web>
+
+//integrated mode
+<system.webserver>
+<modules runAllManagedModulesForAllRequests="true">      
+    <add name="UrlRewriter" type="Intelligencia.UrlRewriter.RewriterHttpModule" />
+	<add name="ScriptModule" preCondition="managedHandler" type="System.Web.Handlers.ScriptModule, System.Web.Extensions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31BF3856AD364E35" />
+</modules>
+</system.webserver>
+
+UrlRewritingNet.UrlRewriter 
+//classic mode
+<httpModules>
+      <add name="UrlRewriteModule"
+           type="UrlRewritingNet.Web.UrlRewriteModule, UrlRewritingNet.UrlRewriter" />
+    </httpModules>
+
+//integrated mode
+<modules runAllManagedModulesForAllRequests="true">
+      .....
+      <add name="UrlRewritingNet" type="UrlRewritingNet.Web.UrlRewriteModule" preCondition="managedHandler" />
+MVC
+MVC 1->4 phải install trên server, MVC 5 trở lên không cần cài
+MVC5  : pool integrated mode
+
+URL Routing
+
+<modules runAllManagedModulesForAllRequests="true"/>
+
+*Url Routing 3.5 
+
+Integrate Mode :
+<system.webServer>
+<handlers>            
+<add name="UrlRoutingHandler" preCondition="integratedMode" verb="*" path="UrlRouting.axd" type="System.Web.HttpForbiddenHandler, System.Web, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"/>
+<!-- . . . -->  
+</handlers>
+</system.webServer>
+
+* Url Routing 4.0 
+Classic mode : add wildcard mapping
+Integrate Mode : mặc định chạy
+
+Sử dụng CustomError 404
+Vd : thienthanhgroup.vn/home
+
+CustomError ko tác dụng trên iis7
+chinh trong web.config
+	<httpErrors errorMode="Custom" existingResponse="Replace">
+hoặc chinh trong IIS -> Configuration Editor (trong cụm Management) -> chỉnh system.webServer/httpErrors
+
+URL Rewrite Module 2.0 for IIS7
+<system.webServer>
+        <rewrite>
+            <rules>
+                …………..
+            </rules>
+        </rewrite>
+    </system.webServer>
+*Chỉ cần cài module rewriter trên IIS : http://www.iis.net/downloads/microsoft/url-rewrite 
+7. Các lỗi website, nhận định lỗi như thế nào, một số trường hợp support.
+1234634, 1249778, 1246842,1306741, 1436517, 1433213
+
+
+==== check log mail enable === 
+C:\Users\Administrator>findstr /c:"kgvc.net" "c:\Program Files (x86)\Parallels\Plesk\Mail Servers\Mail Enable\Logging\SMTP\ex170414*.log" | findstr /c:"RCPT" > C:\spam.csv
+
+
+
+====== Shrink file log =====
+1 =>
+
+Declare @dbname varchar(200),@sql varchar(200) 
+SET @dbname = 'ten_db_can_shrink' 
+set @sql ='alter database '+@dbname+' SET RECOVERY SIMPLE' 
+exec (@sql) 
+DBCC SHRINKDATABASE(@dbname,10) 
+set @sql ='alter database '+@dbname+' SET RECOVERY FULL' 
+exec (@sql) 
+
+
+ko hết =>
+
+se master
+	Declare @dbname varchar(200),@sql varchar(200)/*khai báo biến*/
+	SET @dbname = 'tuyendung201206'/*gán tên db*/
+	set @sql ='alter database '+@dbname+' SET RECOVERY SIMPLE'/*chuyển sang simple*/
+	exec (@sql)/*thực thi lệnh*/
+	/*tém nó*/
+	DBCC SHRINKDATABASE(@dbname,10)/*shrink-->gọn nhẹ không ngờ*/
+	/*set lại FULL*/
+	set @sql ='alter database '+@dbname+' SET RECOVERY FULL'
+	exec (@sql)
+
+
+======= mail enable ====== 
+C => program =>parrell => plesk => mail server => mail enable => postoffice => 
+
+======== hàm put ======
+handler mapping -> webdav -> request restric -> verb -> put
+Method Not Allowed 405 on IIS7 Website eg PUT, DELETE
+
+-  The web site had to continue to enable WebDAV, but the web application needed to turn it off in order to support PUT and DELETE in its REST API.
+<system.webServer>
+<modules>
+<remove name="WebDAVModule" />
+........
+</modules>
+<handlers>
+<remove name="WebDAV" />
+........
+</handlers>
+http://evolutionarydeveloper.blogspot.in/2012/07/method-not-allowed-405-on-iis7-website.html
+
+===== create pool ====== 
+C:\Users\Administrator>%windir%\system32\inetsrv\appcmd list apppool /config /xml > c:\apppools.xml
+kiem tra thong tin user/pass IWAM_plesk(default)
+Cau hinh thong tin user/pass trong pool moi tao
+True --> 32bit
+
+==== log window====
+event viewer : 
+
+
+
+
+
+
+
+
+
+
+

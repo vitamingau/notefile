@@ -1,0 +1,178 @@
+Áp dụng khi kỷ thuật tiếp nhận server mới được bàn giao, kiểm tra server trong quá trình hoạt động.
+
+- Thay đổi password SSH, password admin theo thông tin mới nhất.
+
+- Configuration > Domains
+
++ Chọn Primary domain > Edit > Rename lại tên theo chuẩn: mailXX.dotvndns.vn ( yêu cầu restart kerio)
+
++ Internet Hostname > Rename lại tên theo chuẩn: mailXX.dotvndns.vn
+
+- Configuration > Archiving and Backup > Backup > Điều chỉnh lại lịch backup nếu server dung lượng lớn, phần Notification > nhập email cá nhân để nhận thông báo sau khi backup hoàn tất > Apply
+
+- SSH vào server 
+
++ Thực hiện lệnh: df -h để kiểm tra hdd chính sử dụng
+
++ Thực hiện lệnh: fdisk -l để kiểm tra hdd hdd backup
++ Kiểm tra mount hdd backup
+
+# mount -a
+
+# df -h
+
+/dev/sdb1       315G  1,4G  298G   1% /backup
+
+mount /dev/sdb1 /backup
+mount -t ext4 /dev/sdb1 /backup
+
++ Tạo partion & format hdd backup, ví dụ hdd backup là sdb
+
+# cfdisk /dev/sdb
+# mkfs.ext4 /dev/sdb1
+
++ Kiểm tra UUID của hdd backup
+
+# blkid
+/dev/sdb1: UUID="792bc0b1-82f7-4ffa-8583-b3a7e0027c3f" TYPE="ext4" PARTUUID="c81f4d26-01"
+
++ Cấu hình mount tự động hdd backup
+
+# vi /etc/fstab
+Thêm vào cuối file và save lại
+UUID=792bc0b1-82f7-4ffa-8583-b3a7e0027c3f    /backup    ext4    defaults    0    0
+
++ Kiểm tra mount hdd backup
+
+# mount -a
+
+# df -h
+
+/dev/sdb1       315G  1,4G  298G   1% /backup
+
+- Local Backup
++ SSH vào server và add crontab
+
+
+# crontab -e
+Thêm dòng dưới vào cuối file và sale lại (chú ý đường dẫn dữ liệu /opt/kerio/mailserver/ có thể khác, để kiểm tra vào Web Admin > Configuration > Advanced Options > Store Directory > xem mục Path to the store directory)
+0 19 * * * rsync -az --delete /opt/kerio/mailserver/ /backup/backup_rsync
+
+- Remote Backup 
++ SSH vào server mail
++ Gen key and upload public key to the server remote backup
+
+# ssh-keygen -f ~/.ssh/id_rsa -q -P ""
+# ssh-copy-id -i ~/.ssh/id_rsa.pub bkmail@192.168.89.113
+
+note: user backup is bkmail, server backup is 192.168.89.113
+pass: nhập password user bkmail      (Just put this pass onetime when upload to 89.113)
+
+# csf -a 192.168.89.113 if could not upload to 89.113 
+
++ After uploaded public key, You can test by command log ssh 
+
+# ssh bkmail@192.168.89.113   
+
+If log success that without put pass  then is Ok
+
++ Test rysnc 
+# rsync -auvz --delete -e "ssh -l ssh-user" /backup/zip bkmail@192.168.89.113:/home2/backup_kerio/90.70
+
+note: 90.70 is IP server mail
+
++ Add crontab
+# crontab -e
+Thêm dòng dưới vào cuối file và sale lại 
+0 4 * * * rsync -auvz --delete -e "ssh -l ssh-user" /backup/zip bkmail@192.168.89.113:/home2/backup_kerio/90.70
+
+Monitor Disk Space
+
+# crontab -e
+
+Thêm dòng dưới vào cuối file và sale lại
+
+0 */4 * * * /root/monitor_diskspace.sh >/dev/null 
+
+(File monitor_diskspace.sh có lưu trên 89.113/home, chú ý cập nhật lại email cá nhân để nhận thông báo)
+
+ 
+
+- DirectAdmin cấu hình backup tương tự Kerio (tham khảo 93.99)
+
++ Backup local rsync thư mục /home/user/
+
++ Backup remote rsync
+
++ Backup thông tin email/password bằng tool Admin Backup/Transfer của DirectAdmin 
+
+
+===========================================
+ Hướng dẫn backup Kerio:
+
+Backup cấu hình mail server:
+
+Run: "crontab -e"
+Add line
+0 19 * * * rsync -az --delete /opt/kerio/mailserver/ /backup/backup_rsync
+
+Backup to the remote server backup
+
+At server mail
+
+    Gen key and upload public key to the server remote backup
+
+    ssh-keygen -f ~/.ssh/id_rsa -q -P ""
+    ssh-copy-id -i ~/.ssh/id_rsa.pub bkmail@192.168.89.113
+
+    note: user backup is bkmail, server backup is 192.168.89.113
+    pass: để trong server 92.42 file C:/softs/backup.txt       (Just put this pass onetime when upload to 89.113)
+
+    csf -a 192.168.89.113 if could not upload to 89.113
+
+    After uploaded public key, You can test by command log ssh
+
+    ssh bkmail@192.168.89.113  
+
+    If log success that without put pass  then is Ok
+
+    Test rysnc
+
+    rsync -auvz --delete -e "ssh -l ssh-user" /backup/zip bkmail@192.168.89.113:/home6/backup_kerio/92.236
+
+    note: 90.70 is IP server mail
+
+
+    Config crontab
+    Run "crontab -e"
+    Add line
+
+
+    0 1 * * 5 rsync -auvz --delete -e "ssh -l ssh-user" /backup/zip bkmail@192.168.89.113:/home6/backup_kerio/92.236
+
+
+==--
+RONTAB
+ # For details see man 4 crontabs
+
+# Example of job definition:
+# .---------------- minute (0 - 59)
+# |  .------------- hour (0 - 23)
+# |  |  .---------- day of month (1 - 31)
+# |  |  |  .------- month (1 - 12) OR jan,feb,mar,apr ...
+# |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat
+# |  |  |  |  |
+
+# *  *  *  *  * user-name command to be executed
+
+==---
+crack mdaemon 16.5
+c:\MDaemon\License\license.xml  chỉnh 
+<StartDate>2017-04-24</StartDate>
+<EndDate>2027-05-24</EndDate>
+<Deactivate>2027-05-24</Deactivate>
+<Trial>0</Trial>
+- copy file crack
+
+ 
+
